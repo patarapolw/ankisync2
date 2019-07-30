@@ -49,7 +49,7 @@ for i in range(5):
 
 ## Creating a new *.apkg
 
-You can create a new \*.apkg via `Apkg` with any custom filename (and \*.anki2 via `Anki2()`). A folder required to create \*.apkg will be automatically created.
+You can create a new \*.apkg via `Apkg` with any custom filename (and \*.anki2 via `Anki2()`). A folder required to create \*.apkg needs to be created first.
 
 ```python
 from ankisync2.anki import Apkg
