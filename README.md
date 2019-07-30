@@ -28,7 +28,7 @@ Some [extra tables](/ankisync2/db.py#L46) are created if not exists.
 
 ```python
 from ankisync2.anki import Anki2, Apkg
-apkg = Apkg("example.apkg")
+apkg = Apkg("example.apkg")  # Or Apkg("example/") also works, otherwise the folder named 'example' will be created.
 apkg.db.execute_sql(SQL, PARAMS)
 apkg.zip(output="example1.apkg")
 ```
