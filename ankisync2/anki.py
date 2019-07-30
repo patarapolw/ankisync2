@@ -18,6 +18,7 @@ class Anki2:
             self.db.create_tables([
                 db.Col, db.Notes, db.Cards, db.Graves, db.Revlog
             ])
+            db.Col.create()
 
         if 'decks' not in db.database.get_tables():
             self.db.create_tables([
@@ -82,21 +83,27 @@ class Anki2:
 class Apkg(Anki2):
     original: Path
     folder: Path
+    media_path: Path
 
     def __init__(self, filename_or_dir: Union[str, Path]):
         self.original = Path(filename_or_dir)
         if not self.original.is_dir():
             self.folder = self.original.with_suffix("")
-            self.folder.mkdir(exist_ok=True)
             self.unzip()
         else:
             self.folder = self.original
+        self.folder.mkdir(exist_ok=True)
+
+        self.media_path = self.folder.joinpath("media")
+        if not self.media_path.exists():
+            self.media_path.write_text("{}")
 
         super().__init__(self.folder.joinpath("collection.anki2"))
 
     def unzip(self):
-        with ZipFile(self.original) as zf:
-            zf.extractall(self.folder)
+        if self.original.exists():
+            with ZipFile(self.original) as zf:
+                zf.extractall(self.folder)
 
     def zip(self, output: Union[str, Path]):
         self.close()
@@ -107,11 +114,11 @@ class Apkg(Anki2):
 
     @property
     def media(self) -> dict:
-        return json.loads(self.folder.joinpath("media").read_text())
+        return json.loads(self.media_path.read_text())
 
     @media.setter
     def media(self, value: dict):
-        with self.folder.joinpath("media").open("w") as f:
+        with self.media_path.open("w") as f:
             json.dump(value, f)
 
     def iter_media(self):

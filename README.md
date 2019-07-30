@@ -20,6 +20,8 @@
 
 Also, \*.anki2 is used internally at [`os.path.join(appdirs.user_data_dir('Anki2'), 'User 1', 'collection.anki2')`](https://github.com/patarapolw/ankisync/blob/master/ankisync/dir.py#L9), so editing the SQLite there will also edit the database.
 
+The `media` file is a text file of at least a string of `{}`, which is actually a dictionary of keys -- stringified int; and values -- filenames.
+
 ## Usage
 
 Some [extra tables](/ankisync2/db.py#L46) are created if not exists.
@@ -44,6 +46,10 @@ iter_apkg = iter(apkg)
 for i in range(5):
     print(next(iter_apkg))
 ```
+
+## Creating a new *.apkg
+
+You can create a new \*.apkg via `Apkg` with any custom filename (and \*.anki2 via `Anki2()`). A folder required to create \*.apkg will be automatically created.
 
 ## JSON schema of `Col.models`, `Col.decks`, `Col.conf` and `Col.dconf`
 
