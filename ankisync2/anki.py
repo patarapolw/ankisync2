@@ -128,13 +128,18 @@ class Apkg(Anki2):
                 "name": v
             }
 
-    def add_media(self, file_path: Union[str, Path]) -> int:
+    def add_media(self, file_path: Union[str, Path], archive_name: str = "") -> int:
         media = self.media
         file_id = max(*[int(i) for i in media.keys()]) + 1
-        file_name = Path(file_path).name
 
-        shutil.copy2(file_path, str(self.folder.joinpath(file_name)))
-        media[str(file_id)] = file_name
+        if not archive_name:
+            archive_name = Path(file_path).name
+
+        if any(sep in archive_name for sep in {"/", "\\"}):
+            raise ValueError("Media name does not support sub-folders")
+
+        shutil.copy2(str(file_path), str(self.folder.joinpath(archive_name)))
+        media[str(file_id)] = archive_name
 
         self.media = media
 

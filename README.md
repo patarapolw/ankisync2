@@ -1,5 +1,8 @@
 # AnkiSync 2
 
+[![PyPI version shields.io](https://img.shields.io/pypi/v/ankisync2.svg)](https://pypi.python.org/pypi/ankisync2/)
+[![PyPI license](https://img.shields.io/pypi/l/ankisync2.svg)](https://pypi.python.org/pypi/ankisync2/)
+
 \*.apkg and \*.anki2 file structure is very simple, but with some quirks of incompleteness.
 
 [\*.apkg file structure](https://github.com/ankidroid/Anki-Android/wiki/Database-Structure) is a zip of at least two files.
