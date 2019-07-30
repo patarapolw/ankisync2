@@ -2,13 +2,17 @@
 
 \*.apkg and \*.anki2 file structure is very simple, but with some quirks of incompleteness.
 
-[\*.apkg file structure](https://github.com/ankidroid/Anki-Android/wiki/Database-Structure) is a zip of two files.
+[\*.apkg file structure](https://github.com/ankidroid/Anki-Android/wiki/Database-Structure) is a zip of at least two files.
 
 ```
 .
 ├── example
 │   ├── example.anki2
-│   └── media
+│   ├── media
+│   ├── 1  # Media files with the names masked as numbers
+│   ├── 2
+│   ├── 3
+|   └── ...
 └── example.apkg
 ```
 
