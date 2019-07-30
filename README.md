@@ -70,11 +70,17 @@ t = [
     db.Templates.create(name="fwd", mid=m.id, qfmt="{{field1}}", afmt="{{field2}}"),
     db.Templates.create(name="bwd", mid=m.id, qfmt="{{field2}}", afmt="{{field1}}")   
 ]
-n = db.Notes.create(mid=m.id, flds=["data1", "data2"], tags=["tag1", "tag2"])
+n = db.Notes.create(mid=m.id, flds=["data1", "<img src='media.jpg'>"], tags=["tag1", "tag2"])
 c = [
     db.Cards.create(nid=n.id, did=d.id, ord=i)
     for i, _ in enumerate(t)
 ]
+```
+
+You can also add media, which is not related to the SQLite database.
+
+```python
+apkg.add_media("media.jpg")
 ```
 
 Finally, finalize with
