@@ -45,6 +45,12 @@ for i in range(5):
 
 Please see [/example.ipynb](/example.ipynb).
 
+## Installation
+
+```bash
+pip install ankisync2
+```
+
 # Related projects
 
 - <https://github.com/patarapolw/ankisync>
