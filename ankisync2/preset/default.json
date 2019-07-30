@@ -1,0 +1,314 @@
+{
+  "col": {
+    "id": 1,
+    "crt": 1540846800,
+    "mod": 1540929280995,
+    "scm": 1540929274845,
+    "ver": 11,
+    "dty": 0,
+    "usn": 0,
+    "ls": 0,
+    "conf": {
+      "nextPos": 1,
+      "estTimes": true,
+      "activeDecks": [ 1 ],
+      "sortType": "noteFld",
+      "timeLim": 0,
+      "sortBackwards": false,
+      "addToCur": true,
+      "curDeck": 1,
+      "newBury": true,
+      "newSpread": 0,
+      "activeCols": [ "noteFld", "template", "cardDue", "deck" ],
+      "savedFilters": {},
+      "dueCounts": true,
+      "curModel": "1540929274846",
+      "collapseTime": 1200
+    },
+    "models": {
+      "1540929274841": {
+        "vers": [],
+        "name": "Cloze",
+        "tags": [],
+        "did": 1,
+        "usn": -1,
+        "flds": [
+          {
+            "size": 20,
+            "name": "Text",
+            "media": [],
+            "rtl": false,
+            "ord": 0,
+            "font": "Arial",
+            "sticky": false
+          },
+          {
+            "size": 20,
+            "name": "Extra",
+            "media": [],
+            "rtl": false,
+            "ord": 1,
+            "font": "Arial",
+            "sticky": false
+          }
+        ],
+        "sortf": 0,
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\begin{document}\n",
+        "tmpls": [
+          {
+            "afmt": "{{cloze:Text}}<br>\n{{Extra}}",
+            "name": "Cloze",
+            "qfmt": "{{cloze:Text}}",
+            "did": null,
+            "ord": 0,
+            "bafmt": "",
+            "bqfmt": ""
+          }
+        ],
+        "latexPost": "\\end{document}",
+        "type": 1,
+        "id": "1540929274841",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n\n.cloze {\n font-weight: bold;\n color: blue;\n}",
+        "mod": 1540929274
+      },
+      "1540929274842": {
+        "vers": [],
+        "name": "Basic (optional reversed card)",
+        "tags": [],
+        "did": 1,
+        "usn": -1,
+        "req": [
+          [ 0, "all", [ 0 ] ],
+          [ 1, "all", [ 1, 2 ] ]
+        ],
+        "flds": [
+          {
+            "size": 20,
+            "name": "Front",
+            "media": [],
+            "rtl": false,
+            "ord": 0,
+            "font": "Arial",
+            "sticky": false
+          },
+          {
+            "size": 20,
+            "name": "Back",
+            "media": [],
+            "rtl": false,
+            "ord": 1,
+            "font": "Arial",
+            "sticky": false
+          },
+          {
+            "size": 20,
+            "name": "Add Reverse",
+            "media": [],
+            "rtl": false,
+            "ord": 2,
+            "font": "Arial",
+            "sticky": false
+          }
+        ],
+        "sortf": 0,
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\begin{document}\n",
+        "tmpls": [
+          {
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Back}}",
+            "name": "Card 1",
+            "qfmt": "{{Front}}",
+            "did": null,
+            "ord": 0,
+            "bafmt": "",
+            "bqfmt": ""
+          },
+          {
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Front}}",
+            "name": "Card 2",
+            "qfmt": "{{#Add Reverse}}{{Back}}{{/Add Reverse}}",
+            "did": null,
+            "ord": 1,
+            "bafmt": "",
+            "bqfmt": ""
+          }
+        ],
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": "1540929274842",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n",
+        "mod": 1540929274
+      },
+      "1540929274845": {
+        "vers": [],
+        "name": "Basic (and reversed card)",
+        "tags": [],
+        "did": 1,
+        "usn": -1,
+        "req": [
+          [ 0, "all", [ 0 ] ],
+          [ 1, "all", [ 1 ] ]
+        ],
+        "flds": [
+          {
+            "size": 20,
+            "name": "Front",
+            "media": [],
+            "rtl": false,
+            "ord": 0,
+            "font": "Arial",
+            "sticky": false
+          },
+          {
+            "size": 20,
+            "name": "Back",
+            "media": [],
+            "rtl": false,
+            "ord": 1,
+            "font": "Arial",
+            "sticky": false
+          }
+        ],
+        "sortf": 0,
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\begin{document}\n",
+        "tmpls": [
+          {
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Back}}",
+            "name": "Card 1",
+            "qfmt": "{{Front}}",
+            "did": null,
+            "ord": 0,
+            "bafmt": "",
+            "bqfmt": ""
+          },
+          {
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Front}}",
+            "name": "Card 2",
+            "qfmt": "{{Back}}",
+            "did": null,
+            "ord": 1,
+            "bafmt": "",
+            "bqfmt": ""
+          }
+        ],
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": "1540929274845",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n",
+        "mod": 1540929274
+      },
+      "1540929274846": {
+        "vers": [],
+        "name": "Basic",
+        "tags": [],
+        "did": 1,
+        "usn": -1,
+        "req": [
+          [ 0, "all", [ 0 ] ]
+        ],
+        "flds": [
+          {
+            "size": 20,
+            "name": "Front",
+            "media": [],
+            "rtl": false,
+            "ord": 0,
+            "font": "Arial",
+            "sticky": false
+          },
+          {
+            "size": 20,
+            "name": "Back",
+            "media": [],
+            "rtl": false,
+            "ord": 1,
+            "font": "Arial",
+            "sticky": false
+          }
+        ],
+        "sortf": 0,
+        "latexPre": "\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\begin{document}\n",
+        "tmpls": [
+          {
+            "afmt": "{{FrontSide}}\n\n<hr id=answer>\n\n{{Back}}",
+            "name": "Card 1",
+            "qfmt": "{{Front}}",
+            "did": null,
+            "ord": 0,
+            "bafmt": "",
+            "bqfmt": ""
+          }
+        ],
+        "latexPost": "\\end{document}",
+        "type": 0,
+        "id": "1540929274846",
+        "css": ".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n",
+        "mod": 1540929274
+      }
+    },
+    "decks": {
+      "1": {
+        "name": "Default",
+        "extendRev": 50,
+        "usn": 0,
+        "collapsed": false,
+        "newToday": [ 0, 0 ],
+        "timeToday": [ 0, 0 ],
+        "dyn": 0,
+        "extendNew": 10,
+        "conf": 1,
+        "revToday": [ 0, 0 ],
+        "lrnToday": [ 0, 0 ],
+        "id": 1,
+        "mod": 1540929274,
+        "desc": ""
+      }
+    },
+    "dconf": {
+      "1": {
+        "name": "Default",
+        "replayq": true,
+        "lapse": {
+          "leechFails": 8,
+          "minInt": 1,
+          "delays": [ 10 ],
+          "leechAction": 0,
+          "mult": 0
+        },
+        "rev": {
+          "perDay": 200,
+          "ivlFct": 1,
+          "maxIvl": 36500,
+          "minSpace": 1,
+          "ease4": 1.3,
+          "bury": false,
+          "fuzz": 0.05
+        },
+        "timer": 0,
+        "maxTaken": 60,
+        "usn": 0,
+        "new": {
+          "separate": true,
+          "delays": [ 1, 10 ],
+          "perDay": 20,
+          "ints": [ 1, 4, 7 ],
+          "initialFactor": 2500,
+          "bury": false,
+          "order": 1
+        },
+        "autoplay": true,
+        "id": 1,
+        "mod": 0
+      }
+    },
+    "tags": {}
+  },
+  "notes": null,
+  "cards": null,
+  "revlog": null,
+  "graves": null,
+  "sqlite_stat1": {
+    "tbl": "col",
+    "idx": null,
+    "stat": "1"
+  }
+}
