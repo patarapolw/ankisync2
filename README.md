@@ -36,7 +36,7 @@ apkg.zip(output="example1.apkg")
 I also support adding media.
 
 ```python
-apkg.add_media("media.jpg")
+apkg.add_media("path/to/media.jpg")
 ```
 
 To find the wanted cards and media, iterate though the `Apkg` and `Apkg.iter_media` object.
