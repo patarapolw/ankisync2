@@ -80,7 +80,7 @@ c = [
 You can also add media, which is not related to the SQLite database.
 
 ```python
-apkg.add_media("media.jpg")
+apkg.add_media("path/to/media.jpg")
 ```
 
 Finally, finalize with
