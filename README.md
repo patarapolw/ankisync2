@@ -16,7 +16,7 @@
 └── example.apkg
 ```
 
-\*.anki2 is a SQLite file with foreign key disabled, and the usage of [some JSON schemas](/ankisync2/builder/default.py) instead of [some tables](/ankisync2/db.py#L46)
+\*.anki2 is a SQLite file with foreign key disabled, and the usage of [some JSON schemas](/ankisync2/builder.py) instead of [some tables](/ankisync2/db.py#L46)
 
 Also, \*.anki2 is used internally at [`os.path.join(appdirs.user_data_dir('Anki2'), 'User 1', 'collection.anki2')`](https://github.com/patarapolw/ankisync/blob/master/ankisync/dir.py#L9), so editing the SQLite there will also edit the database.
 
@@ -51,9 +51,41 @@ for i in range(5):
 
 You can create a new \*.apkg via `Apkg` with any custom filename (and \*.anki2 via `Anki2()`). A folder required to create \*.apkg will be automatically created.
 
+```python
+from ankisync2.anki import Apkg
+apkg = Apkg("example")  # Create example folder
+```
+
+After that, the Apkg will require at least 1 card, which is connected to at least 1 note, 1 model, 1 template, and 1 deck; which should be created in this order.
+
+1. Model, Deck
+2. Template, Note
+3. Card
+
+```python
+from ankisync2 import db
+m = db.Models.create(name="foo", flds=["field1", "field2"])
+d = db.Decks.create(name="bar::baz")
+t = [
+    db.Templates.create(name="fwd", mid=m.id, qfmt="{{field1}}", afmt="{{field2}}"),
+    db.Templates.create(name="bwd", mid=m.id, qfmt="{{field2}}", afmt="{{field1}}")   
+]
+n = db.Notes.create(mid=m.id, flds=["data1", "data2"], tags=["tag1", "tag2"])
+c = [
+    db.Cards.create(nid=n.id, did=d.id, ord=i)
+    for i, _ in enumerate(t)
+]
+```
+
+Finally, finalize with
+
+```python
+apkg.zip(output="example1.apkg")
+```
+
 ## JSON schema of `Col.models`, `Col.decks`, `Col.conf` and `Col.dconf`
 
-I have created `dataclasses` for this at [/ankisync2/builder/default.py](/ankisync2/builder/default.py). To serialize it, use `dataclasses.asdict` or
+I have created `dataclasses` for this at [/ankisync2/builder.py](/ankisync2/builder.py). To serialize it, use `dataclasses.asdict` or
 
 ```python
 from ankisync2.util import DataclassJSONEncoder

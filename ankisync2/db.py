@@ -5,7 +5,7 @@ from time import time
 import json
 import shortuuid
 
-from ankisync2.builder.default import Conf, DConf
+from ankisync2.builder import Conf, DConf
 from ankisync2.util import field_checksum, stripHTMLMedia, DataclassJSONEncoder
 
 __all__ = ("database", "Decks", "Models", "Templates", "Col", "Notes", "Cards", "Revlog", "Graves")
@@ -53,8 +53,8 @@ class Decks(BaseModel):
 class Models(BaseModel):
     id = pv.AutoField()     # Use auto-increment instead of time in Epoch seconds to ensure uniqueness
     name = pv.TextField(unique=True)
-    flds = pv.TextField()
-    css = pv.TextField()
+    flds = X1fField()
+    css = pv.TextField(default="")
 
 
 class Templates(BaseModel):
@@ -62,7 +62,7 @@ class Templates(BaseModel):
     mid = pv.ForeignKeyField(Models, column_name="mid", backref="templates")
     name = pv.TextField()
     qfmt = pv.TextField()
-    afmt = pv.TextField()
+    afmt = pv.TextField(default="")
 
 
 # Default tables in Anki
@@ -270,10 +270,7 @@ class Cards(BaseModel):
 
 
 @signals.pre_save(sender=Cards)
-def cards_pre_save(model_class, instance, _):
-    while model_class.get_or_none(id=instance.id) is not None:
-        instance.id = model_class.select(pv.fn.Max(model_class.id)).scalar() + 1
-
+def cards_pre_save(_, instance, __):
     instance.mod = int(time())
     if instance.due is None:
         instance.due = instance.nid
@@ -322,12 +319,6 @@ class Revlog(BaseModel):
             pv.SQL('CREATE INDEX ix_revlog_usn on revlog (usn)'),
             pv.SQL('CREATE INDEX ix_revlog_cid on revlog (cid)')
         ]
-
-
-@signals.pre_save(sender=Revlog)
-def cards_pre_save(model_class, instance, _):
-    while model_class.get_or_none(id=instance.id) is not None:
-        instance.id = model_class.select(pv.fn.Max(model_class.id)).scalar() + 1
 
 
 class Graves(BaseModel):

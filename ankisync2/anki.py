@@ -5,7 +5,7 @@ import json
 import shutil
 from playhouse.shortcuts import model_to_dict
 
-from ankisync2.builder.default import Deck, Model, Field, Template
+from ankisync2.builder import Deck, Model, Field, Template
 from . import db
 
 
