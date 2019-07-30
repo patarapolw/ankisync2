@@ -138,7 +138,9 @@ class Apkg(Anki2):
         if any(sep in archive_name for sep in {"/", "\\"}):
             raise ValueError("Media name does not support sub-folders")
 
-        shutil.copy2(str(file_path), str(self.folder.joinpath(archive_name)))
+        if str(file_path) != str(self.folder.joinpath(archive_name)):
+            shutil.copy(str(file_path), str(self.folder.joinpath(archive_name)))
+
         media[str(file_id)] = archive_name
 
         self.media = media

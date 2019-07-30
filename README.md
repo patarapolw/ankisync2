@@ -12,7 +12,7 @@
 ├── example
 │   ├── example.anki2
 │   ├── media
-│   ├── 1  # Media files with the names masked as numbers
+│   ├── 1  # Media files with the names masked as integers
 │   ├── 2
 │   ├── 3
 |   └── ...
