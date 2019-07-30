@@ -1,9 +1,14 @@
 [tool.poetry]
 name = "ankisync2"
-version = "0.2.2"
-description = "Doing in Anki what AnkiConnect cannot do"
-authors = ["patarapolw <patarapolw@gmail.com>"]
+version = "0.2.2.1"
+description = "Creating and editing *.apkg and *.anki2 safely"
+authors = ["Pacharapol Withayasakpunt <patarapolw@gmail.com>"]
 license = "MIT"
+readme = "README.md"
+repository = "https://github.com/patarapolw/ankisync2"
+homepage = "https://github.com/patarapolw/ankisync2"
+
+keywords = ["anki", "srs", "memorization", "spaced-repetition"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
