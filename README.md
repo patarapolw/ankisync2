@@ -41,6 +41,22 @@ for i in range(5):
     print(next(iter_apkg))
 ```
 
+## JSON schema of `Col.models`, `Col.decks`, `Col.conf` and `Col.dconf`
+
+I have created `dataclasses` for this at [/ankisync2/builder/default.py](/ankisync2/builder/default.py). To serialize it, use `dataclasses.asdict` or
+
+```python
+from ankisync2.util import DataclassJSONEncoder
+import json
+json.dumps(dataclassObject, cls=DataclassJSONEncoder)
+```
+
+For an example of how this works, please see [/ankisync2/anki.py#L56](/ankisync2/anki.py#L56)
+
+## Using `peewee` framework
+
+You can also use `peewee` ORM framework; and [ArrayField](/ankisync2/db.py#L21), [X1fField](/ankisync2/db.py#L31) and [JSONField](/ankisync2/db.py#L31) will be automated. You can use Dataclasses and Lists directly, without converting them to string first.
+
 ## Examples
 
 Please see [/example.ipynb](/example.ipynb).

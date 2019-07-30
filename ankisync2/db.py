@@ -112,8 +112,8 @@ class Col(BaseModel):
     usn = pv.IntegerField(default=0)
     ls = pv.IntegerField(default=0)
     conf = JSONField(default=Conf)
-    models = JSONField(default=dict)
-    decks = JSONField(default=dict)
+    models = JSONField(default=dict)    # Please create with dict[str(id)]ankisync2.builder.default.Model
+    decks = JSONField(default=dict)     # Please create with dict[str(id)]ankisync2.builder.default.Deck
     dconf = JSONField(default=DConf)
     tags = JSONField(default=dict)
 
