@@ -48,7 +48,7 @@ class Anki2:
             db.Decks.create(id=d["id"], name=d["name"])
 
         for m in c.models.values():
-            db.Models.create(id=m["id"], name=m["name"], flds="\x1f".join(f["name"] for f in m["flds"]), css=m["css"])
+            db.Models.create(id=m["id"], name=m["name"], flds=[f["name"] for f in m["flds"]], css=m["css"])
 
             for t in m["tmpls"]:
                 db.Templates.create(mid=m["id"], name=t["name"], qfmt=t["qfmt"], afmt=t["afmt"])
