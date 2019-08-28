@@ -19,7 +19,7 @@ reComment = re.compile("(?s)<!--.*?-->")
 reStyle = re.compile("(?si)<style.*?>.*?</style>")
 reScript = re.compile("(?si)<script.*?>.*?</script>")
 reTag = re.compile("(?s)<.*?>")
-reEnts = re.compile("&#?\w+;")
+reEnts = re.compile(r"&#?\w+;")
 reMedia = re.compile("(?i)<img[^>]+src=[\"']?([^\"'>]+)[\"']?[^>]*>")
 
 
@@ -54,8 +54,8 @@ def htmlToTextLine(s):
     s = s.replace("<br />", " ")
     s = s.replace("<div>", " ")
     s = s.replace("\n", " ")
-    s = re.sub("\[sound:[^]]+\]", "", s)
-    s = re.sub("\[\[type:[^]]+\]\]", "", s)
+    s = re.sub(r"\[sound:[^]]+\]", "", s)
+    s = re.sub(r"\[\[type:[^]]+\]\]", "", s)
     s = stripHTMLMedia(s)
     s = s.strip()
     return s

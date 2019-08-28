@@ -20,3 +20,4 @@ def test_create():
     apkg.add_media("/Users/patarapolw/Desktop/Screen Shot 2019-08-28 at 12.10.52.png")
 
     apkg.zip(output="example1.apkg")
+    apkg.close()

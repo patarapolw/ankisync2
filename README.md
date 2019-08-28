@@ -90,6 +90,26 @@ Finally, finalize with
 
 ```python
 apkg.zip(output="example1.apkg")
+apkg.close()
+```
+
+## Updating an \*.apkg
+
+This is also possible, by modifying `db.Notes.data` as `sqlite_ext.JSONField`, with `peewee.signals`.
+
+It is now as simple as,
+
+```python
+from ankisync2.anki import Apkg
+from ankisync2 import db
+
+apkg = Apkg("example1.apkg")
+
+for n in db.Notes.filter(db.Notes.data["field1"] == "data1"):
+    n.data["field3"] = "data2"
+    n.save()
+
+apkg.close()
 ```
 
 ## JSON schema of `Col.models`, `Col.decks`, `Col.conf` and `Col.dconf`

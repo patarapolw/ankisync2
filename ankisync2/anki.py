@@ -26,6 +26,11 @@ class Anki2:
             ])
             self.fix()
 
+        for n in db.Notes.select(db.Notes.flds, db.Models) \
+                .join(db.Models, on=(db.Models.id == db.Notes.mid)):
+            n.data = dict(zip(n.flds, n.model.flds))
+            n.save()
+
     def __iter__(self):
         for c in db.Cards.select(db.Cards, db.Decks, db.Notes, db.Models) \
                 .join(db.Decks, on=(db.Decks.id == db.Cards.did)) \
@@ -106,8 +111,6 @@ class Apkg(Anki2):
                 zf.extractall(self.folder)
 
     def zip(self, output: Union[str, Path]):
-        self.close()
-
         with ZipFile(output, "w") as zf:
             for f in self.folder.iterdir():
                 zf.write(str(f.resolve()), arcname=f.name)
@@ -146,3 +149,7 @@ class Apkg(Anki2):
         self.media = media
 
         return file_id
+
+    def close(self):
+        super().close()
+        shutil.rmtree(self.folder)
