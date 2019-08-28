@@ -39,12 +39,6 @@ class Anki2:
                 .join(db.Models, on=(db.Models.id == db.Notes.mid)):
             yield model_to_dict(c, backrefs=True)
 
-    def close(self):
-        self.finalize()
-        self.db.drop_tables([
-            db.Decks, db.Models, db.Templates
-        ])
-
     @staticmethod
     def fix():
         c = db.Col.get()
@@ -58,8 +52,7 @@ class Anki2:
             for t in m["tmpls"]:
                 db.Templates.create(mid=m["id"], name=t["name"], qfmt=t["qfmt"], afmt=t["afmt"])
 
-    @staticmethod
-    def finalize():
+    def finalize(self):
         c, is_successful = db.Col.get_or_create()
         decks = c.decks
 
@@ -83,6 +76,14 @@ class Anki2:
         c.decks = decks
         c.models = models
         c.save()
+
+        self.db.drop_tables([
+            db.Decks, db.Models, db.Templates
+        ])
+        for n in db.Notes.select():
+            if n.data:
+                n.data = ""
+                n.save()
 
 
 class Apkg(Anki2):
@@ -151,5 +152,5 @@ class Apkg(Anki2):
         return file_id
 
     def close(self):
-        super().close()
+        self.finalize()
         shutil.rmtree(self.folder)
