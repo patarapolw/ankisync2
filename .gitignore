@@ -242,4 +242,4 @@ dmypy.json
 /.idea/
 /vscode/
 *.lock
-
+*.apkg
