@@ -119,7 +119,7 @@ class Col(BaseModel):
 
 
 @signals.pre_save(sender=Col)
-def col_pre_save(_, instance, __):
+def col_pre_save(model_class, instance, created):
     instance.mod = int(time())
 
 
@@ -175,7 +175,7 @@ class Notes(BaseModel):
 
 
 @signals.pre_save(sender=Notes)
-def notes_pre_save(model_class, instance, _):
+def notes_pre_save(model_class, instance, created):
     while model_class.get_or_none(id=instance.id) is not None:
         instance.id = model_class.select(pv.fn.Max(model_class.id)).scalar() + 1
 
@@ -270,7 +270,7 @@ class Cards(BaseModel):
 
 
 @signals.pre_save(sender=Cards)
-def cards_pre_save(_, instance, __):
+def cards_pre_save(model_class, instance, created):
     instance.mod = int(time())
     if instance.due is None:
         instance.due = instance.nid

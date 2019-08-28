@@ -55,7 +55,7 @@ class Anki2:
 
     @staticmethod
     def finalize():
-        c = db.Col.get_or_create()
+        c, is_successful = db.Col.get_or_create()
         decks = c.decks
 
         for d in db.Decks.select():
@@ -130,7 +130,7 @@ class Apkg(Anki2):
 
     def add_media(self, file_path: Union[str, Path], archive_name: str = "") -> int:
         media = self.media
-        file_id = max(*[int(i) for i in media.keys()]) + 1
+        file_id = max(int(i) for i in (0, *media.keys())) + 1
 
         if not archive_name:
             archive_name = Path(file_path).name
