@@ -15,8 +15,14 @@ class ArrayField(pv.TextField):
         return value.strip().split(self.separator)
 
 
-class X1fField(ArrayField):
+class X1fField(pv.TextField):
     separator = "\x1f"
+
+    def db_value(self, value):
+        return self.separator.join(value)
+
+    def python_value(self, value):
+        return value.strip().split(self.separator)
 
 
 class JSONField(pv.TextField):
