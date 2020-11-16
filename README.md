@@ -30,7 +30,8 @@ The `media` file is a text file of at least a string of `{}`, which is actually 
 Some [extra tables](/ankisync2/db.py#L46) are created if not exists.
 
 ```python
-from ankisync2.anki import Anki2, Apkg
+from ankisync2.apkg import Apkg, db
+
 apkg = Apkg("example.apkg")  # Or Apkg("example/") also works, otherwise the folder named 'example' will be created.
 apkg.db.execute_sql(SQL, PARAMS)
 apkg.zip(output="example1.apkg")
@@ -50,12 +51,13 @@ for i in range(5):
     print(next(iter_apkg))
 ```
 
-## Creating a new *.apkg
+## Creating a new \*.apkg
 
 You can create a new \*.apkg via `Apkg` with any custom filename (and \*.anki2 via `Anki2()`). A folder required to create \*.apkg needs to be created first.
 
 ```python
-from ankisync2.anki import Apkg
+from ankisync2.apkg import Apkg
+
 apkg = Apkg("example")  # Create example folder
 ```
 
@@ -66,12 +68,13 @@ After that, the Apkg will require at least 1 card, which is connected to at leas
 3. Card
 
 ```python
-from ankisync2 import db
+from ankisync2.apkg import db
+
 m = db.Models.create(name="foo", flds=["field1", "field2"])
 d = db.Decks.create(name="bar::baz")
 t = [
     db.Templates.create(name="fwd", mid=m.id, qfmt="{{field1}}", afmt="{{field2}}"),
-    db.Templates.create(name="bwd", mid=m.id, qfmt="{{field2}}", afmt="{{field1}}")   
+    db.Templates.create(name="bwd", mid=m.id, qfmt="{{field2}}", afmt="{{field1}}")
 ]
 n = db.Notes.create(mid=m.id, flds=["data1", "<img src='media.jpg'>"], tags=["tag1", "tag2"])
 c = [
@@ -100,8 +103,7 @@ This is also possible, by modifying `db.Notes.data` as `sqlite_ext.JSONField`, w
 It is now as simple as,
 
 ```python
-from ankisync2.anki import Apkg
-from ankisync2 import db
+from ankisync2.apkg import Apkg, db
 
 apkg = Apkg("example1.apkg")
 
@@ -119,6 +121,7 @@ I have created `dataclasses` for this at [/ankisync2/builder.py](/ankisync2/buil
 ```python
 from ankisync2.util import DataclassJSONEncoder
 import json
+
 json.dumps(dataclassObject, cls=DataclassJSONEncoder)
 ```
 

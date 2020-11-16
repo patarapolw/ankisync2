@@ -1,5 +1,4 @@
-from ankisync2.anki import Apkg
-from ankisync2 import db
+from ankisync2.apkg import Apkg, db
 
 
 def test_update():

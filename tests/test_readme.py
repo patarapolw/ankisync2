@@ -1,5 +1,4 @@
-from ankisync2.anki import Apkg
-from ankisync2 import db
+from ankisync2.apkg import Apkg, db
 
 
 def test_create():
@@ -9,13 +8,12 @@ def test_create():
     d = db.Decks.create(name="bar::baz")
     t = [
         db.Templates.create(name="fwd", mid=m.id, qfmt="{{field1}}", afmt="{{field2}}"),
-        db.Templates.create(name="bwd", mid=m.id, qfmt="{{field2}}", afmt="{{field1}}")
+        db.Templates.create(name="bwd", mid=m.id, qfmt="{{field2}}", afmt="{{field1}}"),
     ]
-    n = db.Notes.create(mid=m.id, flds=["data1", "<img src='media.png'>"], tags=["tag1", "tag2"])
-    c = [
-        db.Cards.create(nid=n.id, did=d.id, ord=i)
-        for i, _ in enumerate(t)
-    ]
+    n = db.Notes.create(
+        mid=m.id, flds=["data1", "<img src='media.png'>"], tags=["tag1", "tag2"]
+    )
+    [db.Cards.create(nid=n.id, did=d.id, ord=i) for i, _ in enumerate(t)]
 
     apkg.add_media("media.png")
 
