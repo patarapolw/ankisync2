@@ -15,7 +15,7 @@ class Conf:
     curDeck = 1
     newBury = True
     newSpread = 0
-    activeCols = [ "noteFld", "template", "cardDue", "deck" ]
+    activeCols = ["noteFld", "template", "cardDue", "deck"]
     savedFilters = {}
     dueCounts = True
     curModel = 1540929274846

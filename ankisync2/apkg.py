@@ -6,7 +6,7 @@ import shutil
 from playhouse.shortcuts import model_to_dict
 
 from ankisync2.builder import Deck, Model, Field, Template
-from . import db
+from .anki20 import db
 
 
 class Anki2:
@@ -14,29 +14,28 @@ class Anki2:
         self.db = db.database
         self.db.init(str(filename))
 
-        if 'col' not in db.database.get_tables():
-            self.db.create_tables([
-                db.Col, db.Notes, db.Cards, db.Graves, db.Revlog
-            ])
+        if "col" not in db.database.get_tables():
+            self.db.create_tables([db.Col, db.Notes, db.Cards, db.Graves, db.Revlog])
             db.Col.create()
 
-        if 'decks' not in db.database.get_tables():
-            self.db.create_tables([
-                db.Decks, db.Models, db.Templates
-            ])
+        if "decks" not in db.database.get_tables():
+            self.db.create_tables([db.Decks, db.Models, db.Templates])
             self.fix()
 
-        for n in db.Notes.select(db.Notes.flds, db.Models) \
-                .join(db.Models, on=(db.Models.id == db.Notes.mid)):
+        for n in db.Notes.select(db.Notes.flds, db.Models).join(
+            db.Models, on=(db.Models.id == db.Notes.mid)
+        ):
             n.data = dict(zip(n.flds, n.model.flds))
             n.save()
 
     def __iter__(self):
-        for c in db.Cards.select(db.Cards, db.Decks, db.Notes, db.Models) \
-                .join(db.Decks, on=(db.Decks.id == db.Cards.did)) \
-                .switch(db.Cards) \
-                .join(db.Notes, on=(db.Notes.id == db.Cards.nid)) \
-                .join(db.Models, on=(db.Models.id == db.Notes.mid)):
+        for c in (
+            db.Cards.select(db.Cards, db.Decks, db.Notes, db.Models)
+            .join(db.Decks, on=(db.Decks.id == db.Cards.did))
+            .switch(db.Cards)
+            .join(db.Notes, on=(db.Notes.id == db.Cards.nid))
+            .join(db.Models, on=(db.Models.id == db.Notes.mid))
+        ):
             yield model_to_dict(c, backrefs=True)
 
     @staticmethod
@@ -47,13 +46,20 @@ class Anki2:
             db.Decks.create(id=d["id"], name=d["name"])
 
         for m in c.models.values():
-            db.Models.create(id=m["id"], name=m["name"], flds=[f["name"] for f in m["flds"]], css=m["css"])
+            db.Models.create(
+                id=m["id"],
+                name=m["name"],
+                flds=[f["name"] for f in m["flds"]],
+                css=m["css"],
+            )
 
             for t in m["tmpls"]:
-                db.Templates.create(mid=m["id"], name=t["name"], qfmt=t["qfmt"], afmt=t["afmt"])
+                db.Templates.create(
+                    mid=m["id"], name=t["name"], qfmt=t["qfmt"], afmt=t["afmt"]
+                )
 
     def finalize(self):
-        c, is_successful = db.Col.get_or_create()
+        c, _ = db.Col.get_or_create()
         decks = c.decks
 
         for d in db.Decks.select():
@@ -63,23 +69,22 @@ class Anki2:
 
         for m in db.Models.select():
             models[str(m.id)] = Model(
-                id=m.id, name=m.name,
+                id=m.id,
+                name=m.name,
                 flds=[Field(name=f, ord=i) for i, f in enumerate(m.flds)],
-                tmpls=[Template(
-                    name=t.name,
-                    qfmt=t.qfmt,
-                    afmt=t.afmt,
-                    ord=i
-                ) for i, t in enumerate(db.Templates.select().where(db.Templates.mid == m.id))]
+                tmpls=[
+                    Template(name=t.name, qfmt=t.qfmt, afmt=t.afmt, ord=i)
+                    for i, t in enumerate(
+                        db.Templates.select().where(db.Templates.mid == m.id)
+                    )
+                ],
             )
 
         c.decks = decks
         c.models = models
         c.save()
 
-        self.db.drop_tables([
-            db.Decks, db.Models, db.Templates
-        ])
+        self.db.drop_tables([db.Decks, db.Models, db.Templates])
         for n in db.Notes.select():
             if n.data:
                 n.data = ""
@@ -127,10 +132,7 @@ class Apkg(Anki2):
 
     def iter_media(self):
         for k, v in self.media.items():
-            yield {
-                "path": k,
-                "name": v
-            }
+            yield {"path": k, "name": v}
 
     def add_media(self, file_path: Union[str, Path], archive_name: str = "") -> int:
         media = self.media

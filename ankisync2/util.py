@@ -40,12 +40,11 @@ def stripHTMLMedia(s):
 
 def minimizeHTML(s):
     "Correct Qt's verbose bold/underline/etc."
-    s = re.sub('<span style="font-weight:600;">(.*?)</span>', '<b>\\1</b>',
-               s)
-    s = re.sub('<span style="font-style:italic;">(.*?)</span>', '<i>\\1</i>',
-               s)
-    s = re.sub('<span style="text-decoration: underline;">(.*?)</span>',
-               '<u>\\1</u>', s)
+    s = re.sub('<span style="font-weight:600;">(.*?)</span>', "<b>\\1</b>", s)
+    s = re.sub('<span style="font-style:italic;">(.*?)</span>', "<i>\\1</i>", s)
+    s = re.sub(
+        '<span style="text-decoration: underline;">(.*?)</span>', "<u>\\1</u>", s
+    )
     return s
 
 
@@ -65,6 +64,7 @@ def entsToTxt(html):
     # entitydefs defines nbsp as \xa0 instead of a standard space, so we
     # replace it first
     html = html.replace("&nbsp;", " ")
+
     def fixup(m):
         text = m.group(0)
         if text[:2] == "&#":
@@ -82,12 +82,13 @@ def entsToTxt(html):
                 text = chr(name2codepoint[text[1:-1]])
             except KeyError:
                 pass
-        return text # leave as is
+        return text  # leave as is
+
     return reEnts.sub(fixup, html)
 
 
 def bodyClass(col, card):
-    bodyclass = "card card%d" % (card.ord+1)
+    bodyclass = "card card%d" % (card.ord + 1)
     if col.conf.get("nightMode"):
         bodyclass += " nightMode"
     return bodyclass
