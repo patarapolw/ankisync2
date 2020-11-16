@@ -10,15 +10,16 @@ from .anki20 import db, builder
 
 class Anki2:
     def __init__(self, filename: Union[str, Path]):
-        self.db = db.database
-        self.db.init(str(filename))
+        db.database.init(str(filename))
 
         if "col" not in db.database.get_tables():
-            self.db.create_tables([db.Col, db.Notes, db.Cards, db.Graves, db.Revlog])
+            db.database.create_tables(
+                [db.Col, db.Notes, db.Cards, db.Graves, db.Revlog]
+            )
             db.Col.create()
 
         if "decks" not in db.database.get_tables():
-            self.db.create_tables([db.Decks, db.Models, db.Templates])
+            db.database.create_tables([db.Decks, db.Models, db.Templates])
             self.fix()
 
         for n in db.Notes.select(db.Notes.flds, db.Models).join(
@@ -83,7 +84,7 @@ class Anki2:
         c.models = models
         c.save()
 
-        self.db.drop_tables([db.Decks, db.Models, db.Templates])
+        db.database.drop_tables([db.Decks, db.Models, db.Templates])
         for n in db.Notes.select():
             if n.data:
                 n.data = ""
