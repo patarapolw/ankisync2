@@ -1,10 +1,12 @@
 import os
+import sys
+import subprocess
 import webbrowser
 
 from appdirs import AppDirs
 
 
-def get_anki_path(user: str):
+def get_anki_path(user: str) -> str:
     """
     Most reliable way is to go to
     Tools >> Add-ons >> View Files
@@ -22,4 +24,16 @@ def get_anki_path(user: str):
 
 
 if __name__ == "__main__":
-    print(webbrowser.open(get_anki_path("User 1")))
+    anki_path = get_anki_path("User 1")
+
+    try:
+        subprocess.call(
+            [
+                {"darwin": "open", "linux": "xdg-open", "win32": "explorer"}[
+                    sys.platform
+                ],
+                anki_path,
+            ]
+        )
+    except KeyError:
+        webbrowser.open(f"file://${anki_path}")
