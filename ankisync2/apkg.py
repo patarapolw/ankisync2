@@ -5,8 +5,7 @@ import json
 import shutil
 from playhouse.shortcuts import model_to_dict
 
-from ankisync2.builder import Deck, Model, Field, Template
-from .anki20 import db
+from .anki20 import db, builder
 
 
 class Anki2:
@@ -63,17 +62,17 @@ class Anki2:
         decks = c.decks
 
         for d in db.Decks.select():
-            decks[str(d.id)] = Deck(id=d.id, name=d.name)
+            decks[str(d.id)] = builder.Deck(id=d.id, name=d.name)
 
         models = c.models
 
         for m in db.Models.select():
-            models[str(m.id)] = Model(
+            models[str(m.id)] = builder.Model(
                 id=m.id,
                 name=m.name,
-                flds=[Field(name=f, ord=i) for i, f in enumerate(m.flds)],
+                flds=[builder.Field(name=f, ord=i) for i, f in enumerate(m.flds)],
                 tmpls=[
-                    Template(name=t.name, qfmt=t.qfmt, afmt=t.afmt, ord=i)
+                    builder.Template(name=t.name, qfmt=t.qfmt, afmt=t.afmt, ord=i)
                     for i, t in enumerate(
                         db.Templates.select().where(db.Templates.mid == m.id)
                     )
