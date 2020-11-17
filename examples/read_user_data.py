@@ -33,12 +33,14 @@ if __name__ == "__main__":
         )
     ]
 
-    pp.pprint(
-        [
-            dict(zip(keys, n.flds))
-            for n in db.Notes.select()
-            .join(db.Notetypes)
-            .where(db.Notetypes.name.collate("BINARY") == "zhlevel_vocab")
-            .limit(10)
-        ]
-    )
+    pp.pprint(tuple(enumerate(keys)))
+
+    # pp.pprint(
+    #     [
+    #         dict(zip(keys, n.flds))
+    #         for n in db.Notes.select()
+    #         .join(db.Notetypes)
+    #         .where(db.Notetypes.name.collate("BINARY") == "zhlevel_vocab")
+    #         .limit(10)
+    #     ]
+    # )
