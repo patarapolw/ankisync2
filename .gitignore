@@ -240,3 +240,4 @@ dmypy.json
 # End of https://www.gitignore.io/api/osx,python,pycharm
 
 *.apkg
+/.vscode/settings.json

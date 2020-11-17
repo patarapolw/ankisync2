@@ -125,13 +125,24 @@ import json
 json.dumps(dataclassObject, cls=DataclassJSONEncoder)
 ```
 
+## Editing user's `collection.anki2`
+
+This can be found at `${ankiPath}/${user}/collection.anki2`, but you might need `ankisync2.anki21` package, depending on your Anki version. Of course, do this at your own risk. Always backup first.
+
+```python
+from ankisync2.anki21 import db
+from ankisync2.dir import get_anki_collection
+
+db.database.init(get_anki_collection("User 1"))
+```
+
 ## Using `peewee` framework
 
 This is based on `peewee` ORM framework. You can use Dataclasses and Lists directly, without converting them to string first.
 
 ## Examples
 
-Please see [/scripts](/scripts) and [/tests](/tests).
+Please see [/examples](/examples), [/scripts](/scripts) and [/tests](/tests).
 
 ## Installation
 

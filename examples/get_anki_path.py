@@ -1,26 +1,9 @@
-import os
 import sys
 import subprocess
 import webbrowser
 
-from appdirs import AppDirs
-
-
-def get_anki_path(user: str) -> str:
-    """
-    Most reliable way is to go to
-    Tools >> Add-ons >> View Files
-    """
-
-    if os.name == "posix":
-        "Linux or macOS"
-
-        a = AppDirs("Anki2")
-        return os.path.join(a.user_data_dir, user)
-    else:
-        "Windows"
-
-        raise NotImplementedError()
+# pylint: disable=import-error
+from ankisync2.dir import get_anki_path
 
 
 if __name__ == "__main__":
