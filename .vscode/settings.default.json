@@ -1,5 +1,7 @@
 {
-    "editor.formatOnSave": true,
     "python.formatting.provider": "black",
-    "editor.tabSize": 4
+    "editor.tabSize": 4,
+    "[python]": {
+        "editor.formatOnSave": true
+    }
 }

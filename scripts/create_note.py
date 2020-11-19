@@ -1,6 +1,8 @@
 import sqlite3
 import sys
 from typing import Dict
+import pinyin
+import ruamel.yaml as yaml
 
 from ankisync2.anki21 import db  # pylint: disable=import-error
 from ankisync2.ankiconnect import ankiconnect  # pylint: disable=import-error
@@ -39,34 +41,6 @@ def create_notes(cards: Dict[str, str]):
     )
 
     for r in rs:
-        sentence = ""
-
-        ts = tatoeba.execute(
-            """
-        SELECT
-            a.[text]                    chinese,
-            GROUP_CONCAT(b.[text], '; ') english
-        FROM        sentence    a
-        INNER JOIN  translation t ON a.id == t.sentence_id
-        INNER JOIN  sentence    b ON b.id == t.translation_id
-        WHERE
-            a.[text] LIKE '%'||?||'%' AND
-            a.lang = 'cmn' AND
-            b.lang = 'eng'
-        GROUP BY a.[text]
-        LIMIT 10
-        """,
-            (r["simplified"],),
-        ).fetchall()
-
-        if len(ts):
-            sentence += "<ul>"
-
-            for t in ts:
-                sentence += f'<li>{t["chinese"]} {t["english"]}</li>'
-
-            sentence += "</ul>"
-
         existing = ankiconnect(
             "findCards", query=f"\"simplified:{r['simplified']}\" note:zhlevel\\_vocab"
         )
@@ -83,12 +57,75 @@ def create_notes(cards: Dict[str, str]):
                         "english": r["english"],
                         "traditional": r["traditional"] or "",
                         "pinyin": r["pinyin"],
-                        "sentences": sentence,
+                        "sentences": get_sentence(tatoeba, r["simplified"]),
+                    },
+                },
+            )
+
+        del cards[r["simplified"]]
+
+    for simp, deck in cards.items():
+        existing = ankiconnect(
+            "findCards", query=f'"simplified:{simp}" note:zhlevel\\_vocab'
+        )
+        if len(existing):
+            ankiconnect("changeDeck", cards=existing, deck=deck)
+        else:
+            ankiconnect(
+                "addNote",
+                note={
+                    "deckName": deck,
+                    "modelName": "zhlevel_vocab",
+                    "fields": {
+                        "simplified": simp,
+                        "pinyin": pinyin.get(simp),
+                        "sentences": get_sentence(tatoeba, simp),
                     },
                 },
             )
 
 
+def get_sentence(tatoeba, simp: str) -> str:
+    sentence = ""
+
+    ts = tatoeba.execute(
+        """
+    SELECT
+        a.[text]                    chinese,
+        GROUP_CONCAT(b.[text], '; ') english
+    FROM        sentence    a
+    INNER JOIN  translation t ON a.id == t.sentence_id
+    INNER JOIN  sentence    b ON b.id == t.translation_id
+    WHERE
+        a.[text] LIKE '%'||?||'%' AND
+        a.lang = 'cmn' AND
+        b.lang = 'eng'
+    GROUP BY a.[text]
+    LIMIT 10
+    """,
+        (simp,),
+    ).fetchall()
+
+    if len(ts):
+        sentence += "<ul>"
+
+        for t in ts:
+            sentence += f'<li>{t["chinese"]} {t["english"]}</li>'
+
+        sentence += "</ul>"
+
+    return sentence
+
+
 if __name__ == "__main__":
     # pylint: disable=no-value-for-parameter
-    create_note(*sys.argv[1:])
+    if sys.argv[1].endswith(".yaml"):
+        with open(sys.argv[1], "r", encoding="utf8") as f:
+            d_map = dict()
+            for k, ts in yaml.safe_load(f).items():
+                for t in ts:
+                    d_map[t] = k
+
+            create_notes(d_map)
+    else:
+        create_note(sys.argv[1], *sys.argv[2:])
