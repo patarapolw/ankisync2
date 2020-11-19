@@ -2,8 +2,7 @@ import sys
 import subprocess
 import webbrowser
 
-# pylint: disable=import-error
-from ankisync2.dir import AnkiPath
+from ankisync2.dir import AnkiPath  # pylint: disable=import-error
 
 
 if __name__ == "__main__":

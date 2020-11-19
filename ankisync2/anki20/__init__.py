@@ -12,8 +12,8 @@ class Anki20:
     Mutates the database to make it easier to read.
     """
 
-    def __init__(self, filename: Union[str, Path]):
-        db.database.init(str(filename))
+    def __init__(self, filename: Union[str, Path], **kwargs):
+        db.database.init(str(filename), **kwargs)
 
         if "col" not in db.database.get_tables():
             db.database.create_tables(
@@ -26,7 +26,7 @@ class Anki20:
             self.fix()
 
         for n in db.Notes.select(db.Notes.flds, db.Models).join(
-            db.Models, on=(db.Models.id == db.Notes.mid)
+            db.Models, on=(db.Models.id == db.Notes.mid)  # pylint: disable=no-member
         ):
             n.data = dict(zip(n.flds, n.model.flds))
             n.save()
@@ -40,10 +40,17 @@ class Anki20:
 
         for c in (
             db.Cards.select(db.Cards, db.Decks, db.Notes, db.Models)
-            .join(db.Decks, on=(db.Decks.id == db.Cards.did))
+            .join(
+                db.Decks, on=(db.Decks.id == db.Cards.did)  # pylint: disable=no-member
+            )
             .switch(db.Cards)
-            .join(db.Notes, on=(db.Notes.id == db.Cards.nid))
-            .join(db.Models, on=(db.Models.id == db.Notes.mid))
+            .join(
+                db.Notes, on=(db.Notes.id == db.Cards.nid)  # pylint: disable=no-member
+            )
+            .join(
+                db.Models,
+                on=(db.Models.id == db.Notes.mid),  # pylint: disable=no-member
+            )
         ):
             yield model_to_dict(c, backrefs=True)
 
@@ -90,7 +97,9 @@ class Anki20:
                 tmpls=[
                     builder.Template(name=t.name, qfmt=t.qfmt, afmt=t.afmt, ord=i)
                     for i, t in enumerate(
-                        db.Templates.select().where(db.Templates.mid == m.id)
+                        db.Templates.select().where(
+                            db.Templates.mid == m.id  # pylint: disable=no-member
+                        )
                     )
                 ],
             )

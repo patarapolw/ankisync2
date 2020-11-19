@@ -14,7 +14,7 @@ class Apkg(Anki20):
     folder: Path
     media_path: Path
 
-    def __init__(self, filename_or_dir: Union[str, Path]):
+    def __init__(self, filename_or_dir: Union[str, Path], **kwargs):
         """
         ```python
         from ankisync2.apkg import Apkg, db
@@ -43,7 +43,7 @@ class Apkg(Anki20):
             self.folder.joinpath("collection.anki2"),
             self.folder.joinpath("collection.anki20"),
         )
-        super().__init__(self.folder.joinpath("collection.anki20"))
+        super().__init__(self.folder.joinpath("collection.anki20"), **kwargs)
 
     def _unzip(self):
         if self.original.exists():
