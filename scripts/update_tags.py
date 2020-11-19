@@ -1,31 +1,31 @@
-import pprint
-import shutil
+# import pprint
+# import shutil
 
 # pylint: disable=import-error
 from ankisync2.anki21 import db
-from ankisync2.dir import get_anki_collection
+
+# from ankisync2.dir import AnkiPath
 from ankisync2.ankiconnect import ankiconnect
 
 
 if __name__ == "__main__":
-    shutil.copy(get_anki_collection("User 1"), "collection.anki2")
+    # shutil.copy(AnkiPath().collection, "collection.anki2")
     db.database.init("collection.anki2")
 
     updates = {}
 
     for c in (
         db.Cards.select()
-        .join(db.Decks)
-        .switch(db.Cards)
         .join(db.Notes)
-        .join(db.Notetypes)
-        .where(db.Notetypes.name.collate("BINARY") == "zhlevel_vocab")
+        .switch(db.Cards)
+        .join(db.Decks)
+        .where(db.Decks.name.collate("NOCASE") ** "zhlevel\x1fvocab\x1f%")
     ):
-        updates.setdefault(c.did.name, set())
-        updates[c.did.name].add(c.nid.id)
+        *tags, level, type_ = c.did.name.split("\x1f")
+        tags.append(f"{type_}_{level.replace(' ', '_')}")
 
-    for k, v in updates.items():
-        ds = set(k.split("\x1f"))
-        tags = ["zhlevel"]
+        for t in tags:
+            updates.setdefault(t, set()).add(c.nid.id)
 
-        ankiconnect("addTags", notes=list(v), tags=tags)
+    for t, notes in updates.items():
+        ankiconnect("addTags", notes=list(notes), tags=t)

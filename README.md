@@ -92,8 +92,7 @@ apkg.add_media("path/to/media.jpg")
 Finally, finalize with
 
 ```python
-apkg.zip(output="example1.apkg")
-apkg.close()
+apkg.export("example1.apkg")
 ```
 
 ## Updating an \*.apkg
@@ -131,9 +130,9 @@ This can be found at `${ankiPath}/${user}/collection.anki2`, but you might need 
 
 ```python
 from ankisync2.anki21 import db
-from ankisync2.dir import get_anki_collection
+from ankisync2.dir import AnkiPath
 
-db.database.init(get_anki_collection("User 1"))
+db.database.init(AnkiPath().collection)
 ```
 
 ## Using `peewee` framework

@@ -3,104 +3,34 @@ from typing import Union
 from zipfile import ZipFile
 import json
 import shutil
-from playhouse.shortcuts import model_to_dict
 
-from .anki20 import db, builder
-
-
-class Anki2:
-    def __init__(self, filename: Union[str, Path]):
-        db.database.init(str(filename))
-
-        if "col" not in db.database.get_tables():
-            db.database.create_tables(
-                [db.Col, db.Notes, db.Cards, db.Graves, db.Revlog]
-            )
-            db.Col.create()
-
-        if "decks" not in db.database.get_tables():
-            db.database.create_tables([db.Decks, db.Models, db.Templates])
-            self.fix()
-
-        for n in db.Notes.select(db.Notes.flds, db.Models).join(
-            db.Models, on=(db.Models.id == db.Notes.mid)
-        ):
-            n.data = dict(zip(n.flds, n.model.flds))
-            n.save()
-
-    def __iter__(self):
-        for c in (
-            db.Cards.select(db.Cards, db.Decks, db.Notes, db.Models)
-            .join(db.Decks, on=(db.Decks.id == db.Cards.did))
-            .switch(db.Cards)
-            .join(db.Notes, on=(db.Notes.id == db.Cards.nid))
-            .join(db.Models, on=(db.Models.id == db.Notes.mid))
-        ):
-            yield model_to_dict(c, backrefs=True)
-
-    @staticmethod
-    def fix():
-        c = db.Col.get()
-
-        for d in c.decks.values():
-            db.Decks.create(id=d["id"], name=d["name"])
-
-        for m in c.models.values():
-            db.Models.create(
-                id=m["id"],
-                name=m["name"],
-                flds=[f["name"] for f in m["flds"]],
-                css=m["css"],
-            )
-
-            for t in m["tmpls"]:
-                db.Templates.create(
-                    mid=m["id"], name=t["name"], qfmt=t["qfmt"], afmt=t["afmt"]
-                )
-
-    def finalize(self):
-        c, _ = db.Col.get_or_create()
-        decks = c.decks
-
-        for d in db.Decks.select():
-            decks[str(d.id)] = builder.Deck(id=d.id, name=d.name)
-
-        models = c.models
-
-        for m in db.Models.select():
-            models[str(m.id)] = builder.Model(
-                id=m.id,
-                name=m.name,
-                flds=[builder.Field(name=f, ord=i) for i, f in enumerate(m.flds)],
-                tmpls=[
-                    builder.Template(name=t.name, qfmt=t.qfmt, afmt=t.afmt, ord=i)
-                    for i, t in enumerate(
-                        db.Templates.select().where(db.Templates.mid == m.id)
-                    )
-                ],
-            )
-
-        c.decks = decks
-        c.models = models
-        c.save()
-
-        db.database.drop_tables([db.Decks, db.Models, db.Templates])
-        for n in db.Notes.select():
-            if n.data:
-                n.data = ""
-                n.save()
+from .anki20 import Anki20, db
 
 
-class Apkg(Anki2):
+class Apkg(Anki20):
+    """Reads a *.apkg file"""
+
     original: Path
     folder: Path
     media_path: Path
 
     def __init__(self, filename_or_dir: Union[str, Path]):
+        """
+        ```python
+        from ankisync2.apkg import Apkg, db
+
+        apkg = Apkg("example.apkg")
+        # Or Apkg("example/") also works. the folder named 'example' will be created.
+        ```
+
+        Args:
+            filename_or_dir (Union[str, Path]): Can be a *.apkg, or a folder name
+        """
+
         self.original = Path(filename_or_dir)
         if not self.original.is_dir():
             self.folder = self.original.with_suffix("")
-            self.unzip()
+            self._unzip()
         else:
             self.folder = self.original
         self.folder.mkdir(exist_ok=True)
@@ -109,32 +39,89 @@ class Apkg(Anki2):
         if not self.media_path.exists():
             self.media_path.write_text("{}")
 
-        super().__init__(self.folder.joinpath("collection.anki2"))
+        shutil.copy(
+            self.folder.joinpath("collection.anki2"),
+            self.folder.joinpath("collection.anki20"),
+        )
+        super().__init__(self.folder.joinpath("collection.anki20"))
 
-    def unzip(self):
+    def _unzip(self):
         if self.original.exists():
             with ZipFile(self.original) as zf:
                 zf.extractall(self.folder)
 
-    def zip(self, output: Union[str, Path]):
-        with ZipFile(output, "w") as zf:
+    def export(self, filename: Union[str, Path]):
+        """Export to `*.apkg`
+
+        Args:
+            filename (Union[str, Path]): Exported filename. The extension should be *.apkg
+        """
+
+        """For each file, simply shutil.copy() and the file will be created or overwritten, whichever is appropriate.
+        """
+        shutil.copy(
+            self.folder.joinpath("collection.anki20"),
+            self.folder.joinpath("collection.anki2"),
+        )
+
+        Anki20(self.folder.joinpath("collection.anki2")).finalize()
+
+        with ZipFile(filename, "w") as zf:
             for f in self.folder.iterdir():
-                zf.write(str(f.resolve()), arcname=f.name)
+                if not f.name.endswith(".anki20"):
+                    zf.write(str(f.resolve()), arcname=f.name)
+
+    def clean(self):
+        """Delete the generated folder"""
+
+        shutil.rmtree(self.folder)
 
     @property
     def media(self) -> dict:
+        """Get media dictionary
+
+        Returns:
+            dict: media dictionary
+        """
+
         return json.loads(self.media_path.read_text())
 
     @media.setter
     def media(self, value: dict):
+        """Set media dictionary
+
+        Args:
+            value (dict): media dictionary
+        """
+
         with self.media_path.open("w") as f:
             json.dump(value, f)
 
     def iter_media(self):
+        """Iterate through the media
+
+        Yields:
+            dict: media dictionary, containing "path": path_to_file and "name": represented_filename
+        """
+
         for k, v in self.media.items():
             yield {"path": k, "name": v}
 
     def add_media(self, file_path: Union[str, Path], archive_name: str = "") -> int:
+        """Add media to the archive
+
+        ```python
+        apkg.add_media("path/to/media.jpg")
+        ```
+
+        Args:
+            file_path (Union[str, Path]): file path to the media.
+            archive_name (str, optional): file may be renamed. Defaults to "".
+
+        Returns:
+            int: The media file ID.
+        """
+
         media = self.media
         file_id = max(int(i) for i in (0, *media.keys())) + 1
 
@@ -152,7 +139,3 @@ class Apkg(Anki2):
         self.media = media
 
         return file_id
-
-    def close(self):
-        self.finalize()
-        shutil.rmtree(self.folder)

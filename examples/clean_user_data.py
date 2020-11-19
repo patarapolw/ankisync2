@@ -2,11 +2,11 @@ import pprint
 
 # pylint: disable=import-error
 from ankisync2.anki21 import db
-from ankisync2.dir import get_anki_collection
+from ankisync2.dir import AnkiPath
 
 
 if __name__ == "__main__":
-    db.database.init(get_anki_collection("User 1"))
+    db.database.init(AnkiPath().collection)
 
     pp = pprint.PrettyPrinter()
 

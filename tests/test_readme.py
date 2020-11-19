@@ -17,5 +17,5 @@ def test_create():
 
     apkg.add_media("media.png")
 
-    apkg.zip(output="example1.apkg")
+    apkg.export("example1.apkg")
     apkg.close()
