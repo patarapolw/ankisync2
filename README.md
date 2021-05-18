@@ -23,7 +23,7 @@
 
 Also, \*.anki2 is used internally at [`os.path.join(appdirs.user_data_dir('Anki2'), 'User 1', 'collection.anki2')`](https://github.com/patarapolw/ankisync/blob/master/ankisync/dir.py#L9), so editing the SQLite there will also edit the database.
 
-However, [internal \*.anki2 has recently changed](https://github.com/patarapolw/ankisync2/issues/3). If you need to edit internally, if maybe safer to do in Anki<=2.1.26. If you have trouble running two Anki versions (latest and 2.1.26), see [/anki2.1.26](https://github.com/patarapolw/ankisync/blob/master/anki2.1.26).
+However, [internal \*.anki2 has recently changed](https://github.com/patarapolw/ankisync2/issues/3). If you need to edit internally, if maybe safer to do in Anki<=2.1.26. If you have trouble running two Anki versions (latest and 2.1.26), see [/anki2.1.26](https://github.com/patarapolw/ankisync/tree/master/anki2.1.26).
 
 The `media` file is a text file of at least a string of `{}`, which is actually a dictionary of keys -- stringified int; and values -- filenames.
 
