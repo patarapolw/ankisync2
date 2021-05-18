@@ -4,7 +4,7 @@ from zipfile import ZipFile
 import json
 import shutil
 
-from .anki20 import Anki20, db
+from .anki20 import Anki20
 
 
 class Apkg(Anki20):
