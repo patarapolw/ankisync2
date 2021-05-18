@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ankisync2"
-version = "0.3.1.1"
+version = "0.3.2"
 description = "Creating and editing *.apkg and *.anki2 safely"
 authors = ["Pacharapol Withayasakpunt <patarapolw@gmail.com>"]
 license = "MIT"

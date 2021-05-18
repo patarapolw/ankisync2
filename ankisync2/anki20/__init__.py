@@ -25,12 +25,6 @@ class Anki20:
             db.database.create_tables([db.Decks, db.Models, db.Templates])
             self.fix()
 
-        for n in db.Notes.select(db.Notes.flds, db.Models).join(
-            db.Models, on=(db.Models.id == db.Notes.mid)  # pylint: disable=no-member
-        ):
-            n.data = dict(zip(n.flds, n.model.flds))
-            n.save()
-
     def __iter__(self):
         """Iterates through Cards, with appropriate table joinings
 
@@ -109,10 +103,6 @@ class Anki20:
         c.save()
 
         db.database.drop_tables([db.Decks, db.Models, db.Templates])
-        for n in db.Notes.select():
-            if n.data:
-                n.data = ""
-                n.save()
 
     def close(self):
         """Close the database
