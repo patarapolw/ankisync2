@@ -1,0 +1,17 @@
+3065c3065
+<         <span style="color:#268bd2">"isCloze"</span>: False,
+---
+>         <span style="color:#268bd2">"isCloze"</span>: false,
+3451c3451
+<      <ul>
+---
+>      <p><ul>
+3482c3482
+<      </ul>
+---
+>      </ul></p>
+4366c4366
+< </html>
+\ Pas de fin de ligne à la fin du fichier
+---
+> </html>
