@@ -11,7 +11,35 @@ from .builder import Conf, DConf
 from ..fields import ArrayField, X1fField, JSONField
 from ..util import field_checksum, stripHTMLMedia
 
-database = sqlite_ext.SqliteExtDatabase(None, regexp_function=True)
+# custom sqlite function to check if this is the good field 
+# Like() operator on concatened fields values cannot
+# make the difference if two fields holds the seeked value
+def _sqlite_field_contains(fields,field_name,field_value): 
+    f=fields.split('\x1f')
+    field_names=f[:len(f)//2]
+    success= False
+    if field_name in field_names:
+        field_values=f[len(f)//2:]
+        d = {key:value for key, value in zip(field_names, field_values)}
+        case_sentitive=False #Default behavior of Like() Operator
+        check_field_value=d[field_name]       
+        if(not case_sentitive):
+            check_field_value=check_field_value.lower()
+            field_value=field_value.lower()
+        success=(check_field_value.find(field_value) != -1)
+    return success
+
+# Subclass sqlite_ext.SqliteExtDatabase to add our custom sqlite function
+class MySqliteExtDatabase(sqlite_ext.SqliteExtDatabase):
+    def __init__(self, *args, **kwargs):
+        super(MySqliteExtDatabase, self).__init__(*args, **kwargs)
+
+    def _add_conn_hooks(self, conn):
+        conn.create_function('field_contains', 3, _sqlite_field_contains)
+        super(MySqliteExtDatabase, self)._add_conn_hooks(conn)
+
+#database = sqlite_ext.SqliteExtDatabase(None, regexp_function=True)
+database=MySqliteExtDatabase(None, regexp_function=True)
 
 
 class BaseModel(signals.Model):
