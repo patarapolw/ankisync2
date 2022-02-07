@@ -12,7 +12,7 @@
 ├── example
 │   ├── collection.anki2
 │   ├── collection.anki21 # newer Anki Desktop creates and uses this file instead, while retaining the old one as stub.
-│   ├── media
+│   ├── media # JSON of dict[int, str]
 │   ├── 1  # Media files with the names masked as integers
 │   ├── 2
 │   ├── 3
