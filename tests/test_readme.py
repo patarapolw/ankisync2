@@ -1,4 +1,5 @@
-from ankisync2.apkg import Apkg, db
+from ankisync2.apkg import Apkg
+from ankisync2.anki20 import db
 
 
 def test_create():

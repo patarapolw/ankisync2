@@ -1,4 +1,24 @@
 [[package]]
+name = "ankisync2"
+version = "0.3.2"
+description = "Creating and editing *.apkg and *.anki2 safely"
+category = "main"
+optional = false
+python-versions = ">=3.7,<4.0"
+
+[package.dependencies]
+peewee = ">=3.9,<4.0"
+shortuuid = ">=0.5.0,<0.6.0"
+
+[[package]]
+name = "peewee"
+version = "3.14.8"
+description = "a little orm"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "pinyin"
 version = "0.4.0"
 description = "Translate chinese chars to pinyin based on Mandarin.dat"
@@ -29,12 +49,27 @@ category = "main"
 optional = false
 python-versions = ">=3.5"
 
+[[package]]
+name = "shortuuid"
+version = "0.5.0"
+description = "A generator library for concise, unambiguous and URL-safe UUIDs."
+category = "main"
+optional = false
+python-versions = "*"
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "0f7b59ffac185b9b42611bfe14a033e21ef0ed6c1bece43cf3b3331a3b7c0fd6"
+content-hash = "05d10a712c67c133199c2d474ae0ffac20690bc02c54fe4e0dbbd8fcc7ed4ccd"
 
 [metadata.files]
+ankisync2 = [
+    {file = "ankisync2-0.3.2-py3-none-any.whl", hash = "sha256:a3af56016739b2c0e575cc217106f1f4a161a48e781e5286ecb48dc789748db5"},
+    {file = "ankisync2-0.3.2.tar.gz", hash = "sha256:3caf7d23d44dcb0bf2671297edc19a3eb00463b520716c65ef60f2d80e8c341a"},
+]
+peewee = [
+    {file = "peewee-3.14.8.tar.gz", hash = "sha256:01bd7f734defb08d7a3346a0c0ca7011bc8d0d685934ec0e001b3371d522ec53"},
+]
 pinyin = [
     {file = "pinyin-0.4.0.tar.gz", hash = "sha256:8842ae53cb7a81c8c3ec03d1cd7dba9aedb20d8d6962aebc620fad74da0868f5"},
 ]
@@ -68,4 +103,7 @@ pinyin = [
     {file = "ruamel.yaml.clib-0.2.6-cp39-cp39-win32.whl", hash = "sha256:3fb9575a5acd13031c57a62cc7823e5d2ff8bc3835ba4d94b921b4e6ee664104"},
     {file = "ruamel.yaml.clib-0.2.6-cp39-cp39-win_amd64.whl", hash = "sha256:825d5fccef6da42f3c8eccd4281af399f21c02b32d98e113dbc631ea6a6ecbc7"},
     {file = "ruamel.yaml.clib-0.2.6.tar.gz", hash = "sha256:4ff604ce439abb20794f05613c374759ce10e3595d1867764dd1ae675b85acbd"},
+]
+shortuuid = [
+    {file = "shortuuid-0.5.0.tar.gz", hash = "sha256:d08fd398f40f8baf87e15eef8355e92fa541bca4eb8465fefab7ee22f92711b9"},
 ]
