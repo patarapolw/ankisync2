@@ -13,6 +13,8 @@ class Anki20:
     """
 
     def __init__(self, filename: Union[str, Path], **kwargs):
+        self.db = db
+
         db.database.init(str(filename), **kwargs)
 
         if "col" not in db.database.get_tables():
@@ -24,6 +26,12 @@ class Anki20:
         if "decks" not in db.database.get_tables():
             db.database.create_tables([db.Decks, db.Models, db.Templates])
             self.fix()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.close()
 
     def __iter__(self):
         """Iterates through Cards, with appropriate table joinings

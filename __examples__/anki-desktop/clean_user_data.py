@@ -1,20 +1,19 @@
 import pprint
 
-from ankisync2.anki21 import db
-from ankisync2.dir import AnkiPath
+from ankisync2 import AnkiDesktop
 
 
 if __name__ == "__main__":
-    db.database.init(AnkiPath().collection)
+    anki = AnkiDesktop()
 
     pp = pprint.PrettyPrinter()
 
     f_ord = (
-        db.Fields.select(db.Fields.ord, db.Fields.name)
-        .join(db.Notetypes)
+        anki.db.Fields.select(anki.db.Fields.ord, anki.db.Fields.name)
+        .join(anki.db.Notetypes)
         .where(
-            db.Notetypes.name.collate("BINARY") == "zhlevel_vocab"
-            and db.Fields.name.collate("BINARY") == "traditional"
+            anki.db.Notetypes.name.collate("BINARY") == "zhlevel_vocab"
+            and anki.db.Fields.name.collate("BINARY") == "traditional"
         )
         .first()
     ).ord
@@ -28,9 +27,9 @@ if __name__ == "__main__":
     updates = []
 
     for n in (
-        db.Notes.select(db.Notes.id, db.Notes.flds)
-        .join(db.Notetypes)
-        .where(db.Notetypes.name.collate("BINARY") == "zhlevel_vocab")
+        anki.db.Notes.select(anki.db.Notes.id, anki.db.Notes.flds)
+        .join(anki.db.Notetypes)
+        .where(anki.db.Notetypes.name.collate("BINARY") == "zhlevel_vocab")
     ):
         if list_get(n.flds, f_ord) == "None":
             flds = list(n.flds)
@@ -39,16 +38,16 @@ if __name__ == "__main__":
             updates.append(n)
 
     if len(updates):
-        db.Notes.bulk_update(updates, fields=[db.Notes.flds])
+        anki.db.Notes.bulk_update(updates, fields=[anki.db.Notes.flds])
 
     pp.pprint(
         [
             f[0]
             for f in (
                 (n.id, list_get(n.flds, f_ord))
-                for n in db.Notes.select(db.Notes.id, db.Notes.flds)
-                .join(db.Notetypes)
-                .where(db.Notetypes.name.collate("BINARY") == "zhlevel_vocab")
+                for n in anki.db.Notes.select(anki.db.Notes.id, anki.db.Notes.flds)
+                .join(anki.db.Notetypes)
+                .where(anki.db.Notetypes.name.collate("BINARY") == "zhlevel_vocab")
             )
             if f[1] is None
         ]

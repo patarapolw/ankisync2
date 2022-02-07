@@ -65,6 +65,9 @@ class Models(BaseModel):
     css = pv.TextField(default="")
 
 
+NoteTypes = Models
+
+
 class Templates(BaseModel):
     id = pv.AutoField()
     model = pv.ForeignKeyField(Models, column_name="mid", backref="templates")

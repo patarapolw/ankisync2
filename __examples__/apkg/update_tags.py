@@ -1,20 +1,18 @@
-from ankisync2.anki21 import db
-
-from ankisync2.ankiconnect import ankiconnect
+from ankisync2 import AnkiDesktop, ankiconnect
 
 
 if __name__ == "__main__":
-    # shutil.copy(AnkiPath().collection, "collection.anki2")
-    db.database.init("collection.anki2")
+    # AnkiDesktop.backup("collection.anki2")
+    anki = AnkiDesktop(filename="collection.anki2")
 
     updates = {}
 
     for c in (
-        db.Cards.select()
-        .join(db.Notes)
-        .switch(db.Cards)
-        .join(db.Decks)
-        .where(db.Decks.name.collate("NOCASE") ** "zhlevel\x1fvocab\x1f%")
+        anki.db.Cards.select()
+        .join(anki.db.Notes)
+        .switch(anki.db.Cards)
+        .join(anki.db.Decks)
+        .where(anki.db.Decks.name.collate("NOCASE") ** "zhlevel\x1fvocab\x1f%")
     ):
         *tags, level, type_ = c.did.name.split("\x1f")
         tags.append(f"{type_}_{level.replace(' ', '_')}")

@@ -2,7 +2,6 @@ import peewee as pv
 from playhouse import signals, sqlite_ext
 
 from time import time
-import json
 import shortuuid
 
 from ..fields import ArrayField, X1fField

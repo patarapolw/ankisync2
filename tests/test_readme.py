@@ -1,20 +1,23 @@
-from ankisync2.apkg import Apkg
-from ankisync2.anki20 import db
+from ankisync2 import Apkg
 
 
 def test_create():
     apkg = Apkg("example")  # Create example folder
 
-    m = db.Models.create(name="foo", flds=["field1", "field2"])
-    d = db.Decks.create(name="bar::baz")
+    m = apkg.db.Models.create(name="foo", flds=["field1", "field2"])
+    d = apkg.db.Decks.create(name="bar::baz")
     t = [
-        db.Templates.create(name="fwd", mid=m.id, qfmt="{{field1}}", afmt="{{field2}}"),
-        db.Templates.create(name="bwd", mid=m.id, qfmt="{{field2}}", afmt="{{field1}}"),
+        apkg.db.Templates.create(
+            name="fwd", mid=m.id, qfmt="{{field1}}", afmt="{{field2}}"
+        ),
+        apkg.db.Templates.create(
+            name="bwd", mid=m.id, qfmt="{{field2}}", afmt="{{field1}}"
+        ),
     ]
-    n = db.Notes.create(
+    n = apkg.db.Notes.create(
         mid=m.id, flds=["data1", "<img src='media.png'>"], tags=["tag1", "tag2"]
     )
-    [db.Cards.create(nid=n.id, did=d.id, ord=i) for i, _ in enumerate(t)]
+    [apkg.db.Cards.create(nid=n.id, did=d.id, ord=i) for i, _ in enumerate(t)]
 
     apkg.add_media("media.png")
 

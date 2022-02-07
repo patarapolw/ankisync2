@@ -45,6 +45,13 @@ class Apkg(Anki20):
         )
         super().__init__(self.folder.joinpath("collection.anki20"), **kwargs)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.clean()
+        self.close()
+
     def _unzip(self):
         if self.original.exists():
             with ZipFile(self.original) as zf:

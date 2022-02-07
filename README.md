@@ -32,11 +32,12 @@ The `media` file is a text file of at least a string of `{}`, which is actually 
 Some [extra tables](/ankisync2/db.py#L46) are created if not exists.
 
 ```python
-from ankisync2.apkg import Apkg, db
+from ankisync2 import Apkg
 
-apkg = Apkg("example.apkg")  # Or Apkg("example/") also works, otherwise the folder named 'example' will be created.
-db.database.execute_sql(SQL, PARAMS)
-apkg.zip(output="example1.apkg")
+with Apkg("example.apkg") as apkg:
+    # Or Apkg("example/") also works, otherwise the folder named 'example' will be created.
+    apkg.db.database.execute_sql(SQL, PARAMS)
+    apkg.zip(output="example1.apkg")
 ```
 
 I also support adding media.
@@ -70,19 +71,20 @@ After that, the Apkg will require at least 1 card, which is connected to at leas
 3. Card
 
 ```python
-from ankisync2.apkg import db
+from ankisync2 import Apkg
 
-m = db.Models.create(name="foo", flds=["field1", "field2"])
-d = db.Decks.create(name="bar::baz")
-t = [
-    db.Templates.create(name="fwd", mid=m.id, qfmt="{{field1}}", afmt="{{field2}}"),
-    db.Templates.create(name="bwd", mid=m.id, qfmt="{{field2}}", afmt="{{field1}}")
-]
-n = db.Notes.create(mid=m.id, flds=["data1", "<img src='media.jpg'>"], tags=["tag1", "tag2"])
-c = [
-    db.Cards.create(nid=n.id, did=d.id, ord=i)
-    for i, _ in enumerate(t)
-]
+with Apkg("example.apkg") as apkg:
+    m = apkg.db.Models.create(name="foo", flds=["field1", "field2"])
+    d = apkg.db.Decks.create(name="bar::baz")
+    t = [
+        apkg.db.Templates.create(name="fwd", mid=m.id, qfmt="{{field1}}", afmt="{{field2}}"),
+        apkg.db.Templates.create(name="bwd", mid=m.id, qfmt="{{field2}}", afmt="{{field1}}")
+    ]
+    n = apkg.db.Notes.create(mid=m.id, flds=["data1", "<img src='media.jpg'>"], tags=["tag1", "tag2"])
+    c = [
+        apkg.db.Cards.create(nid=n.id, did=d.id, ord=i)
+        for i, _ in enumerate(t)
+    ]
 ```
 
 You can also add media, which is not related to the SQLite database.
@@ -104,15 +106,14 @@ This is also possible, by modifying `db.Notes.data` as `sqlite_ext.JSONField`, w
 It is now as simple as,
 
 ```python
-from ankisync2.apkg import Apkg, db
+from ankisync2 import Apkg
 
-apkg = Apkg("example1.apkg")
+with Apkg("example1.apkg") as apkg:
+    for n in apkg.db.Notes.filter(db.Notes.data["field1"] == "data1"):
+        n.data["field3"] = "data2"
+        n.save()
 
-for n in db.Notes.filter(db.Notes.data["field1"] == "data1"):
-    n.data["field3"] = "data2"
-    n.save()
-
-apkg.close()
+    apkg.close()
 ```
 
 ## JSON schema of `Col.models`, `Col.decks`, `Col.conf` and `Col.dconf`
@@ -120,7 +121,7 @@ apkg.close()
 I have created `dataclasses` for this at [/ankisync2/builder.py](/ankisync2/builder.py). To serialize it, use `dataclasses.asdict` or
 
 ```python
-from ankisync2.util import DataclassJSONEncoder
+from ankisync2 import DataclassJSONEncoder
 import json
 
 json.dumps(dataclassObject, cls=DataclassJSONEncoder)
@@ -131,10 +132,9 @@ json.dumps(dataclassObject, cls=DataclassJSONEncoder)
 This can be found at `${ankiPath}/${user}/collection.anki2`, but you might need `ankisync2.anki21` package, depending on your Anki version. Of course, do this at your own risk. Always backup first.
 
 ```python
-from ankisync2.anki21 import db
-from ankisync2.dir import AnkiPath
+from ankisync2 import AnkiDesktop
 
-db.database.init(AnkiPath().collection)
+anki = AnkiDesktop()
 ```
 
 ## Using `peewee` framework
@@ -143,7 +143,7 @@ This is based on `peewee` ORM framework. You can use Dataclasses and Lists direc
 
 ## Examples
 
-Please see [/__examples__](/__examples__), and [/tests](/tests).
+Please see [/`__examples__`](/__examples__), and [/tests](/tests).
 
 ## Installation
 

@@ -2,19 +2,18 @@ import sqlite3
 from typing import Dict
 import pinyin
 
-from ankisync2.anki21 import db
-from ankisync2.ankiconnect import ankiconnect
-from scripts.has_vocabs import has_vocabs
+from ankisync2 import AnkiDesktop, ankiconnect
+
+from .vocab import has_vocabs
 
 
-def create_note(simplified: str, deckName: str = "Default"):
-    create_notes({simplified: deckName})
+def create_note(anki: AnkiDesktop, simplified: str, deckName: str = "Default"):
+    create_notes(anki, {simplified: deckName})
 
 
-def create_notes(cards: Dict[str, str]):
-    db.database.init("collection.anki2")
-    existing_vocab = set(has_vocabs())
-    db.database.close()
+def create_notes(anki: AnkiDesktop, cards: Dict[str, str]):
+    existing_vocab = set(has_vocabs(anki))
+    anki.db.database.close()
 
     cedict = sqlite3.connect("C:\\Users\\Pacharapol W\\Dropbox\\database\\cedict.db")
     cedict.row_factory = sqlite3.Row

@@ -1,16 +1,17 @@
 import pprint
 
-from ankisync2.anki21 import db
-from ankisync2.dir import AnkiPath
+from ankisync2 import AnkiDesktop
 
 
 if __name__ == "__main__":
-    db.database.init(AnkiPath().collection)
+    anki = AnkiDesktop()
 
     """
     This `.collate("BINARY") is required to overcome a custom collation, unicase.`
     """
-    nt = db.Notetypes.get(db.Notetypes.name.collate("BINARY") == "zhlevel_vocab")
+    nt = anki.db.Notetypes.get(
+        anki.db.Notetypes.name.collate("BINARY") == "zhlevel_vocab"
+    )
     print(nt.id)
     print(nt.name)
 
@@ -25,9 +26,9 @@ if __name__ == "__main__":
     keys = [
         f.name
         for f in sorted(
-            db.Fields.select(db.Fields.ord, db.Fields.name)
-            .join(db.Notetypes)
-            .where(db.Notetypes.name.collate("BINARY") == "zhlevel_vocab"),
+            anki.db.Fields.select(anki.db.Fields.ord, anki.db.Fields.name)
+            .join(anki.db.Notetypes)
+            .where(anki.db.Notetypes.name.collate("BINARY") == "zhlevel_vocab"),
             key=lambda f: f.ord,
         )
     ]
