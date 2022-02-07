@@ -143,7 +143,7 @@ This is based on `peewee` ORM framework. You can use Dataclasses and Lists direc
 
 ## Examples
 
-Please see [/examples](/examples), [/scripts](/scripts) and [/tests](/tests).
+Please see [/__examples__](/__examples__), and [/tests](/tests).
 
 ## Installation
 
