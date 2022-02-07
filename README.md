@@ -123,12 +123,15 @@ json.dumps(dataclassObject, cls=DataclassJSONEncoder)
 
 ## Editing user's `collection.anki2`
 
-This can be found at `${ankiPath}/${user}/collection.anki2`, but you might need `ankisync2.anki21` package, depending on your Anki version. Of course, do this at your own risk. Always backup first.
+This can be found at `${ankiPath}/${user}/collection.anki2`. Of course, do this at your own risk. Always backup first.
 
 ```python
 from ankisync2 import AnkiDesktop
 
-anki = AnkiDesktop()
+AnkiDesktop.backup("/path/to/anki-desktop.db")
+anki = AnkiDesktop(filename="/path/to/anki-desktop.db")
+... # Edit as you please
+AnkiDesktop.restore("/path/to/anki-desktop.db")
 ```
 
 ## Using `peewee` framework
