@@ -1,12 +1,10 @@
 import sqlite3
-import sys
 from typing import Dict
 import pinyin
-import ruamel.yaml as yaml
 
-from ankisync2.anki21 import db  # pylint: disable=import-error
-from ankisync2.ankiconnect import ankiconnect  # pylint: disable=import-error
-from scripts.has_vocabs import has_vocabs  # pylint: disable=import-error
+from ankisync2.anki21 import db
+from ankisync2.ankiconnect import ankiconnect
+from scripts.has_vocabs import has_vocabs
 
 
 def create_note(simplified: str, deckName: str = "Default"):
@@ -115,17 +113,3 @@ def get_sentence(tatoeba, simp: str) -> str:
         sentence += "</ul>"
 
     return sentence
-
-
-if __name__ == "__main__":
-    # pylint: disable=no-value-for-parameter
-    if sys.argv[1].endswith(".yaml"):
-        with open(sys.argv[1], "r", encoding="utf8") as f:
-            d_map = dict()
-            for k, ts in yaml.safe_load(f).items():
-                for t in ts:
-                    d_map[t] = k
-
-            create_notes(d_map)
-    else:
-        create_note(sys.argv[1], *sys.argv[2:])

@@ -1,8 +1,8 @@
 import shutil
 from typing import List
 
-from ankisync2.dir import AnkiPath  # pylint: disable=import-error
-from ankisync2.anki21 import db  # pylint: disable=import-error
+from ankisync2.dir import AnkiPath
+from ankisync2.anki21 import db
 
 
 def has_vocabs() -> List[str]:

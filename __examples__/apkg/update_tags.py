@@ -1,10 +1,6 @@
-# import pprint
-# import shutil
+from ankisync2.anki21 import db
 
-from ankisync2.anki21 import db  # pylint: disable=import-error
-
-# from ankisync2.dir import AnkiPath  # pylint: disable=import-error
-from ankisync2.ankiconnect import ankiconnect  # pylint: disable=import-error
+from ankisync2.ankiconnect import ankiconnect
 
 
 if __name__ == "__main__":

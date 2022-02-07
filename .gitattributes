@@ -1,1 +1,6 @@
 *.ipynb linguist-vendored
+*.db linguist-vendored
+*.anki2 linguist-vendored
+*.apkg linguist-vendored
+__examples__/* linguist-vendored
+__utils__/* linguist-vendored

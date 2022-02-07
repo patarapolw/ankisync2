@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ankisync2-apkg"
+version = "0.1.0"
+description = ""
+authors = ["Pacharapol Withayasakpunt <polv@polv.cc>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pinyin = "^0.4.0"
+"ruamel.yaml" = "^0.17.20"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

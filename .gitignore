@@ -244,5 +244,4 @@ dmypy.json
 *.anki2-*
 *.anki20
 *.anki20-*
-/.vscode/settings.json
 user.yaml
