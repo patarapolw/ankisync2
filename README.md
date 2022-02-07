@@ -10,7 +10,8 @@
 ```
 .
 ├── example
-│   ├── example.anki2
+│   ├── collection.anki2
+│   ├── collection.anki21 # newer Anki Desktop creates and uses this file instead, while retaining the old one as stub.
 │   ├── media
 │   ├── 1  # Media files with the names masked as integers
 │   ├── 2
@@ -59,7 +60,7 @@ for i in range(5):
 You can create a new \*.apkg via `Apkg` with any custom filename (and \*.anki2 via `Anki2()`). A folder required to create \*.apkg needs to be created first.
 
 ```python
-from ankisync2.apkg import Apkg
+from ankisync2 import Apkg
 
 apkg = Apkg("example")  # Create example folder
 ```
@@ -143,7 +144,7 @@ This is based on `peewee` ORM framework. You can use Dataclasses and Lists direc
 
 ## Examples
 
-Please see [/`__examples__`](/__examples__), and [/tests](/tests).
+Please see [`/__examples__`](/__examples__), and [/tests](/tests).
 
 ## Installation
 
