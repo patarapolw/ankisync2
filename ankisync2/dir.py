@@ -15,7 +15,7 @@ class AnkiPath:
         inside_wsl (bool, optional): WSL only - access files installed inside WSL. Defaults to False.
     """
 
-    base: str
+    base: Path
     user: str
 
     def __init__(self, user: str = "User 1", inside_wsl: bool = False):
@@ -25,11 +25,11 @@ class AnkiPath:
         if sys.platform == "darwin":
             "macOS"
 
-            self.base = os.path.join(os.environ["HOME"], ".local", "share")
+            self.base = Path(os.environ["HOME"], ".local", "share")
         elif "win" in sys.platform:
             "Windows"
 
-            self.base = os.environ["APPDATA"]
+            self.base = Path(os.environ["APPDATA"])
         elif not inside_wsl and "microsoft" in Path("/proc/version").read_text():
             "WSL on Linux"
 
@@ -39,21 +39,21 @@ class AnkiPath:
                 .strip()
                 .split("\\")
             )
-            self.base = os.path.join("/mnt", drive.split(":")[0].lower(), *winpath)
+            self.base = Path("/mnt", drive.split(":")[0].lower(), *winpath)
         else:
             "Linux"
 
-            self.base = os.path.join(os.environ["HOME"], ".local", "share")
+            self.base = Path(os.environ["HOME"], ".local", "share")
 
     @property
     def path(self):
         """Returns Anki folder
 
         Returns:
-            str: Anki folder
+            Path: Anki folder
         """
 
-        return os.path.join(self.base, "Anki2", self.user)
+        return self.base.joinpath("Anki2", self.user)
 
     def show(self):
         """Open the folder in OS-specific file viewer"""
@@ -62,17 +62,17 @@ class AnkiPath:
             sys.platform
         ]
 
-        subprocess.call([opener, self.path])
+        subprocess.call([opener, str(self.path)])
 
     @property
     def collection(self):
         """Get User's `collection.anki2`
 
         Returns:
-            str: Path to `collection.anki2`
+            Path: Path to `collection.anki2`
         """
 
-        return os.path.join(self.base, "Anki2", self.user, "collection.anki2")
+        return self.base.joinpath("Anki2", self.user, "collection.anki2")
 
     def __repr__(self):
-        return self.path
+        return str(self.path)

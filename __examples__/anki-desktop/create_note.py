@@ -9,7 +9,6 @@ from common.notes import create_note, create_notes
 if __name__ == "__main__":
     anki = AnkiDesktop(filename="collection.anki2")
 
-    # pylint: disable=no-value-for-parameter
     if sys.argv[1].endswith(".yaml"):
         with open(sys.argv[1], "r", encoding="utf8") as f:
             d_map = dict()

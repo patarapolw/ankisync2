@@ -2,7 +2,6 @@ from ankisync2 import AnkiDesktop, ankiconnect
 
 
 if __name__ == "__main__":
-    # AnkiDesktop.backup("collection.anki2")
     anki = AnkiDesktop(filename="collection.anki2")
 
     updates = {}

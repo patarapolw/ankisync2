@@ -1,6 +1,5 @@
-from ankisync2.dir import AnkiPath
+from ankisync2 import AnkiPath
 
 
 if __name__ == "__main__":
-    anki_path = AnkiPath()
-    anki_path.show()
+    AnkiPath().show()

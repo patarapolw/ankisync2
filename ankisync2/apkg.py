@@ -39,11 +39,19 @@ class Apkg(Anki20):
         if not self.media_path.exists():
             self.media_path.write_text("{}")
 
+        anki21 = self.folder.joinpath("collection.anki21")
+        self.has_anki21 = anki21.exists()
+        self.orignal_anki2 = anki21
+
+        if not anki21:
+            self.orignal_anki2 = self.folder.joinpath("collection.anki21")
+
         shutil.copy(
-            self.folder.joinpath("collection.anki2"),
-            self.folder.joinpath("collection.anki20"),
+            self.orignal_anki2,
+            self.folder.joinpath("collection.anki_tmp"),
         )
-        super().__init__(self.folder.joinpath("collection.anki20"), **kwargs)
+
+        super().__init__(self.folder.joinpath("collection.anki_tmp"), **kwargs)
 
     def __enter__(self):
         return self
@@ -67,15 +75,15 @@ class Apkg(Anki20):
         """For each file, simply shutil.copy() and the file will be created or overwritten, whichever is appropriate.
         """
         shutil.copy(
-            self.folder.joinpath("collection.anki20"),
-            self.folder.joinpath("collection.anki2"),
+            self.folder.joinpath("collection.anki_tmp"),
+            self.orignal_anki2,
         )
 
-        Anki20(self.folder.joinpath("collection.anki2")).finalize()
+        Anki20(self.orignal_anki2).finalize()
 
         with ZipFile(filename, "w") as zf:
             for f in self.folder.iterdir():
-                if not f.name.endswith(".anki20"):
+                if not f.name.endswith(".anki_tmp"):
                     zf.write(str(f.resolve()), arcname=f.name)
 
     def clean(self):

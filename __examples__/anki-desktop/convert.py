@@ -12,6 +12,6 @@ if __name__ == "__main__":
         .where((anki.db.Decks.name.collate("NOCASE") ** "Chinese%"))
     )
 
-    anki.db.database.close()
+    create_notes(anki, cards)
 
-    create_notes(cards)
+    anki.close()

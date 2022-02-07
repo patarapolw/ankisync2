@@ -29,7 +29,7 @@ class AnkiDesktop:
         self.db = db_new if semver.compare(version, "2.1.26") >= 0 else db
 
         if filename is None:
-            filename = AnkiPath().collection
+            filename = str(AnkiPath().collection)
 
         self.filename = filename
         self.version = version
@@ -39,8 +39,17 @@ class AnkiDesktop:
     def backup(target: Union[str, Path]):
         shutil.copy(AnkiPath().collection, target)
 
+    @staticmethod
+    def restore(src: Union[str, Path]):
+        col = AnkiPath().collection
+        col.rename(col.with_name("collection.anki2.bak"))
+        shutil.copy(src, col)
+
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.close()
+
+    def close(self):
         self.db.database.close()
