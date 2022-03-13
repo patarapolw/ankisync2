@@ -1,0 +1,4366 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <link href="/css/main.css" rel="stylesheet"/>
+  <title>
+   FooSoft Productions - AnkiConnect
+  </title>
+ </head>
+ <body>
+  <nav id="navbar">
+   <div id="navbar-brand">
+    <a href="/" id="navbar-logo">
+     <img alt="" src="/img/foosoft.png"/>
+    </a>
+    <a href="/" id="navbar-title">
+     FooSoft Productions
+    </a>
+   </div>
+   <div id="navbar-links">
+    <a href="/">
+     Readme
+    </a>
+    <a href="/posts">
+     Posts
+    </a>
+    <a class="active" href="/projects">
+     Projects
+    </a>
+    <a href="/portfolio">
+     Portfolio
+    </a>
+    <a href="/tags">
+     Tags
+    </a>
+   </div>
+  </nav>
+  <div class="hidden" id="lightbox" tabindex="0">
+  </div>
+  <a aria-label="View source on GitHub" class="github-corner" href="https://github.com/FooSoft/anki-connect">
+   <svg aria-hidden="true" height="80" viewBox="0 0 250 250" width="80">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z">
+    </path>
+    <path class="octo-arm" d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;">
+    </path>
+    <path class="octo-body" d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor">
+    </path>
+   </svg>
+  </a>
+  <section>
+   <h1>
+    AnkiConnect
+   </h1>
+   <div>
+    <a class="tag" href="/tags/anki">
+     anki
+    </a>
+    <a class="tag" href="/tags/anki-connect">
+     anki-connect
+    </a>
+    <a class="tag" href="/tags/gpl-license">
+     gpl license
+    </a>
+    <a class="tag" href="/tags/japanese">
+     japanese
+    </a>
+    <a class="tag" href="/tags/python">
+     python
+    </a>
+    <a class="tag" href="/tags/yomichan">
+     yomichan
+    </a>
+   </div>
+   <p>
+    AnkiConnect enables external applications such as
+    <a href="/projects/yomichan/">
+     Yomichan
+    </a>
+    to communicate with
+    <a href="https://apps.ankiweb.net/">
+     Anki
+    </a>
+    over a simple HTTP API. Its capabilities include executing queries against the user’s
+card deck, automatically creating new cards, and more. AnkiConnect is compatible with the latest stable (2.1.x) releases
+of Anki; older versions (2.0.x and below) are no longer supported.
+   </p>
+   <h2 id="installation">
+    Installation
+   </h2>
+   <p>
+    The installation process is similar to other Anki plugins and can be accomplished in three steps:
+   </p>
+   <ol>
+    <li>
+     Open the
+     <code>
+      Install Add-on
+     </code>
+     dialog by selecting
+     <code>
+      Tools
+     </code>
+     |
+     <code>
+      Add-ons
+     </code>
+     |
+     <code>
+      Get Add-ons...
+     </code>
+     in Anki.
+    </li>
+    <li>
+     Input
+     <a href="https://ankiweb.net/shared/info/2055492159">
+      2055492159
+     </a>
+     into the text box labeled
+     <code>
+      Code
+     </code>
+     and press the
+     <code>
+      OK
+     </code>
+     button to proceed.
+    </li>
+    <li>
+     Restart Anki when prompted to do so in order to complete the installation of AnkiConnect.
+    </li>
+   </ol>
+   <p>
+    Anki must be kept running in the background in order for other applications to be able to use AnkiConnect. You can
+verify that AnkiConnect is running at any time by accessing
+    <code>
+     localhost:8765
+    </code>
+    in your browser. If the server is running,
+you will see the message
+    <code>
+     AnkiConnect
+    </code>
+    displayed in your browser window.
+   </p>
+   <h3 id="notes-for-windows-users">
+    Notes for Windows Users
+   </h3>
+   <p>
+    Windows users may see a firewall nag dialog box appear on Anki startup. This occurs because AnkiConnect runs a local
+HTTP server in order to enable other applications to connect to it. The host application, Anki, must be unblocked for
+this plugin to function correctly.
+   </p>
+   <h3 id="notes-for-macos-users">
+    Notes for macOS Users
+   </h3>
+   <p>
+    Starting with
+    <a href="https://en.wikipedia.org/wiki/OS_X_Mavericks">
+     Mac OS X Mavericks
+    </a>
+    , a feature named
+    <em>
+     App Nap
+    </em>
+    has been
+introduced to the operating system. This feature causes certain applications which are open (but not visible) to be
+placed in a suspended state. As this behavior causes AnkiConnect to stop working while you have another window in the
+foreground, App Nap should be disabled for Anki:
+   </p>
+   <ol>
+    <li>
+     Start the Terminal application.
+    </li>
+    <li>
+     Execute the following commands in the terminal window:
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">defaults write net.ankiweb.dtop NSAppSleepDisabled -bool <span style="color:#b58900">true</span>
+defaults write net.ichi2.anki NSAppSleepDisabled -bool <span style="color:#b58900">true</span>
+defaults write org.qt-project.Qt.QtWebEngineCore NSAppSleepDisabled -bool <span style="color:#b58900">true</span>
+</pre>
+    </li>
+    <li>
+     Restart Anki.
+    </li>
+   </ol>
+   <h2 id="application-interface-for-developers">
+    Application Interface for Developers
+   </h2>
+   <p>
+    AnkiConnect exposes internal Anki features to external applications via an easy to use API. After being installed, this
+plugin will start an HTTP server on port 8765 whenever Anki is launched. Other applications (including browser
+extensions) can then communicate with it via HTTP requests.
+   </p>
+   <p>
+    By default, AnkiConnect will only bind the HTTP server to the
+    <code>
+     127.0.0.1
+    </code>
+    IP address, so that you will only be able to
+access it from the same host on which it is running. If you need to access it over a network, you can set the
+environment variable
+    <code>
+     ANKICONNECT_BIND_ADDRESS
+    </code>
+    to change the binding address. For example, you can set it to
+    <code>
+     0.0.0.0
+    </code>
+    in order to bind it to all network interfaces on your host.
+   </p>
+   <h3 id="sample-invocation">
+    Sample Invocation
+   </h3>
+   <p>
+    Every request consists of a JSON-encoded object containing an
+    <code>
+     action
+    </code>
+    , a
+    <code>
+     version
+    </code>
+    , contextual
+    <code>
+     params
+    </code>
+    , and a
+    <code>
+     key
+    </code>
+    value used for authentication (which is optional and can be omitted by default). AnkiConnect will respond with an object
+containing two fields:
+    <code>
+     result
+    </code>
+    and
+    <code>
+     error
+    </code>
+    . The
+    <code>
+     result
+    </code>
+    field contains the return value of the executed API, and the
+    <code>
+     error
+    </code>
+    field is a description of any exception thrown during API execution (the value
+    <code>
+     null
+    </code>
+    is used if execution
+completed successfully).
+   </p>
+   <p>
+    <em>
+     Sample successful response
+    </em>
+    :
+   </p>
+   <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{<span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">"Default"</span>, <span style="color:#2aa198">"Filtered Deck 1"</span>], <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>}
+</pre>
+   <p>
+    <em>
+     Samples of failed responses
+    </em>
+    :
+   </p>
+   <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{<span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>, <span style="color:#268bd2">"error"</span>: <span style="color:#2aa198">"unsupported action"</span>}
+</pre>
+   <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{<span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>, <span style="color:#268bd2">"error"</span>: <span style="color:#2aa198">"guiBrowse() got an unexpected keyword argument 'foobar'"</span>}
+</pre>
+   <p>
+    For compatibility with clients designed to work with older versions of AnkiConnect, failing to provide a
+    <code>
+     version
+    </code>
+    field
+in the request will make the version default to 4. Furthermore, when the provided version is level 4 or below, the API
+response will only contain the value of the
+    <code>
+     result
+    </code>
+    ; no
+    <code>
+     error
+    </code>
+    field is available for error handling.
+   </p>
+   <p>
+    You can use whatever language or tool you like to issue request to AnkiConnect, but a couple of simple examples are
+included below as reference.
+   </p>
+   <h4 id="curl">
+    Curl
+   </h4>
+   <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">curl localhost:8765 -X POST -d <span style="color:#2aa198">"{\"action\": \"deckNames\", \"version\": 6}"</span>
+</pre>
+   <h4 id="python">
+    Python
+   </h4>
+   <pre style="color:#93a1a1;background-color:#002b36" tabindex="0"><span style="color:#719e07">import</span> json
+<span style="color:#719e07">import</span> urllib.request
+
+<span style="color:#719e07">def</span> <span style="color:#268bd2">request</span>(action, <span style="color:#719e07">**</span>params):
+    <span style="color:#719e07">return</span> {<span style="color:#2aa198">'action'</span>: action, <span style="color:#2aa198">'params'</span>: params, <span style="color:#2aa198">'version'</span>: <span style="color:#2aa198">6</span>}
+
+<span style="color:#719e07">def</span> <span style="color:#268bd2">invoke</span>(action, <span style="color:#719e07">**</span>params):
+    requestJson <span style="color:#719e07">=</span> json<span style="color:#719e07">.</span>dumps(request(action, <span style="color:#719e07">**</span>params))<span style="color:#719e07">.</span>encode(<span style="color:#2aa198">'utf-8'</span>)
+    response <span style="color:#719e07">=</span> json<span style="color:#719e07">.</span>load(urllib<span style="color:#719e07">.</span>request<span style="color:#719e07">.</span>urlopen(urllib<span style="color:#719e07">.</span>request<span style="color:#719e07">.</span>Request(<span style="color:#2aa198">'http://localhost:8765'</span>, requestJson)))
+    <span style="color:#719e07">if</span> <span style="color:#b58900">len</span>(response) <span style="color:#719e07">!=</span> <span style="color:#2aa198">2</span>:
+        <span style="color:#719e07">raise</span> <span style="color:#cb4b16">Exception</span>(<span style="color:#2aa198">'response has an unexpected number of fields'</span>)
+    <span style="color:#719e07">if</span> <span style="color:#2aa198">'error'</span> <span style="color:#719e07">not</span> <span style="color:#719e07">in</span> response:
+        <span style="color:#719e07">raise</span> <span style="color:#cb4b16">Exception</span>(<span style="color:#2aa198">'response is missing required error field'</span>)
+    <span style="color:#719e07">if</span> <span style="color:#2aa198">'result'</span> <span style="color:#719e07">not</span> <span style="color:#719e07">in</span> response:
+        <span style="color:#719e07">raise</span> <span style="color:#cb4b16">Exception</span>(<span style="color:#2aa198">'response is missing required result field'</span>)
+    <span style="color:#719e07">if</span> response[<span style="color:#2aa198">'error'</span>] <span style="color:#719e07">is</span> <span style="color:#719e07">not</span> <span style="color:#cb4b16">None</span>:
+        <span style="color:#719e07">raise</span> <span style="color:#cb4b16">Exception</span>(response[<span style="color:#2aa198">'error'</span>])
+    <span style="color:#719e07">return</span> response[<span style="color:#2aa198">'result'</span>]
+
+invoke(<span style="color:#2aa198">'createDeck'</span>, deck<span style="color:#719e07">=</span><span style="color:#2aa198">'test1'</span>)
+result <span style="color:#719e07">=</span> invoke(<span style="color:#2aa198">'deckNames'</span>)
+<span style="color:#b58900">print</span>(<span style="color:#2aa198">'got list of decks: </span><span style="color:#2aa198">{}</span><span style="color:#2aa198">'</span><span style="color:#719e07">.</span>format(result))
+</pre>
+   <h4 id="javascript">
+    JavaScript
+   </h4>
+   <pre style="color:#93a1a1;background-color:#002b36" tabindex="0"><span style="color:#268bd2">function</span> invoke(action, version, params<span style="color:#719e07">=</span>{}) {
+    <span style="color:#719e07">return</span> <span style="color:#719e07">new</span> <span style="color:#b58900">Promise</span>((resolve, reject) =&gt; {
+        <span style="color:#268bd2">const</span> xhr <span style="color:#719e07">=</span> <span style="color:#719e07">new</span> XMLHttpRequest();
+        xhr.addEventListener(<span style="color:#2aa198">'error'</span>, () =&gt; reject(<span style="color:#2aa198">'failed to issue request'</span>));
+        xhr.addEventListener(<span style="color:#2aa198">'load'</span>, () =&gt; {
+            <span style="color:#719e07">try</span> {
+                <span style="color:#268bd2">const</span> response <span style="color:#719e07">=</span> JSON.parse(xhr.responseText);
+                <span style="color:#719e07">if</span> (<span style="color:#b58900">Object</span>.getOwnPropertyNames(response).length <span style="color:#719e07">!=</span> <span style="color:#2aa198">2</span>) {
+                    <span style="color:#719e07">throw</span> <span style="color:#2aa198">'response has an unexpected number of fields'</span>;
+                }
+                <span style="color:#719e07">if</span> (<span style="color:#719e07">!</span>response.hasOwnProperty(<span style="color:#2aa198">'error'</span>)) {
+                    <span style="color:#719e07">throw</span> <span style="color:#2aa198">'response is missing required error field'</span>;
+                }
+                <span style="color:#719e07">if</span> (<span style="color:#719e07">!</span>response.hasOwnProperty(<span style="color:#2aa198">'result'</span>)) {
+                    <span style="color:#719e07">throw</span> <span style="color:#2aa198">'response is missing required result field'</span>;
+                }
+                <span style="color:#719e07">if</span> (response.error) {
+                    <span style="color:#719e07">throw</span> response.error;
+                }
+                resolve(response.result);
+            } <span style="color:#719e07">catch</span> (e) {
+                reject(e);
+            }
+        });
+
+        xhr.open(<span style="color:#2aa198">'POST'</span>, <span style="color:#2aa198">'http://127.0.0.1:8765'</span>);
+        xhr.send(JSON.stringify({action, version, params}));
+    });
+}
+
+<span style="color:#268bd2">await</span> invoke(<span style="color:#2aa198">'createDeck'</span>, <span style="color:#2aa198">6</span>, {deck<span style="color:#719e07">:</span> <span style="color:#2aa198">'test1'</span>});
+<span style="color:#268bd2">const</span> result <span style="color:#719e07">=</span> <span style="color:#268bd2">await</span> invoke(<span style="color:#2aa198">'deckNames'</span>, <span style="color:#2aa198">6</span>);
+console.log(<span style="color:#586e75">`got list of decks: </span><span style="color:#2aa198">${</span>result<span style="color:#2aa198">}</span><span style="color:#586e75">`</span>);
+</pre>
+   <h3 id="hey-could-you-add-a-new-action-to-support-feature">
+    Hey, could you add a new action to support $FEATURE?
+   </h3>
+   <p>
+    The primary goal for AnkiConnect was to support real-time flash card creation from the
+    <a href="/projects/yomichan/">
+     Yomichan
+    </a>
+    browser extension. The current API provides all the required actions
+to make this happen. I recognise that the role of AnkiConnect has evolved from this original vision, and I am happy to
+review new feature requests.
+   </p>
+   <p>
+    With that said,
+    <em>
+     this project operates on a self-serve model
+    </em>
+    . If you would like a new feature, create a PR. I’ll review
+it and if it looks good, it will be merged in.
+    <em>
+     Requests to add new features without accompanying PRs will not be
+serviced
+    </em>
+    . Make sure that your PRs meet the following criteria:
+   </p>
+   <ul>
+    <li>
+     Attempt to match style of the surrounding code.
+    </li>
+    <li>
+     Have accompanying documentation with examples.
+    </li>
+    <li>
+     Have accompanying tests that verify operation.
+    </li>
+    <li>
+     Implement features useful in other applications.
+    </li>
+   </ul>
+   <h3 id="supported-actions">
+    Supported Actions
+   </h3>
+   <p>
+    Documentation for currently supported actions is split up by category and is referenced below. Note that deprecated APIs
+will continue to function despite not being listed on this page as long as your request is labeled with a version number
+corresponding to when the API was available for use.
+   </p>
+   <ul>
+    <li>
+     <a href="#card-actions">
+      Card Actions
+     </a>
+    </li>
+    <li>
+     <a href="#deck-actions">
+      Deck Actions
+     </a>
+    </li>
+    <li>
+     <a href="#graphical-actions">
+      Graphical Actions
+     </a>
+    </li>
+    <li>
+     <a href="#media-actions">
+      Media Actions
+     </a>
+    </li>
+    <li>
+     <a href="#miscellaneous-actions">
+      Miscellaneous Actions
+     </a>
+    </li>
+    <li>
+     <a href="#model-actions">
+      Model Actions
+     </a>
+    </li>
+    <li>
+     <a href="#note-actions">
+      Note Actions
+     </a>
+    </li>
+    <li>
+     <a href="#statistic-actions">
+      Statistic Actions
+     </a>
+    </li>
+   </ul>
+   <h4 id="card-actions">
+    Card Actions
+   </h4>
+   <ul>
+    <li>
+     <p>
+      <strong>
+       getEaseFactors
+      </strong>
+     </p>
+     <p>
+      Returns an array with the ease factor for each of the given cards (in the same order).
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getEaseFactors"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1483959291685</span>, <span style="color:#2aa198">1483959293217</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">4100</span>, <span style="color:#2aa198">3900</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       setEaseFactors
+      </strong>
+     </p>
+     <p>
+      Sets ease factor of cards by card ID; returns
+      <code>
+       true
+      </code>
+      if successful (all cards existed) or
+      <code>
+       false
+      </code>
+      otherwise.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"setEaseFactors"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1483959291685</span>, <span style="color:#2aa198">1483959293217</span>],
+        <span style="color:#268bd2">"easeFactors"</span>: [<span style="color:#2aa198">4100</span>, <span style="color:#2aa198">3900</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#cb4b16">true</span>, <span style="color:#cb4b16">true</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       suspend
+      </strong>
+     </p>
+     <p>
+      Suspend cards by card ID; returns
+      <code>
+       true
+      </code>
+      if successful (at least one card wasn’t already suspended) or
+      <code>
+       false
+      </code>
+      otherwise.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"suspend"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1483959291685</span>, <span style="color:#2aa198">1483959293217</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       unsuspend
+      </strong>
+     </p>
+     <p>
+      Unsuspend cards by card ID; returns
+      <code>
+       true
+      </code>
+      if successful (at least one card was previously suspended) or
+      <code>
+       false
+      </code>
+      otherwise.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"unsuspend"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1483959291685</span>, <span style="color:#2aa198">1483959293217</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       suspended
+      </strong>
+     </p>
+     <p>
+      Check if card is suspended by its ID. Returns
+      <code>
+       true
+      </code>
+      if suspended,
+      <code>
+       false
+      </code>
+      otherwise.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"suspended"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"card"</span>: <span style="color:#2aa198">1483959293217</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       areSuspended
+      </strong>
+     </p>
+     <p>
+      Returns an array indicating whether each of the given cards is suspended (in the same order). If card doesn’t
+exist returns
+      <code>
+       null
+      </code>
+      .
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"areSuspended"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1483959291685</span>, <span style="color:#2aa198">1483959293217</span>, <span style="color:#2aa198">1234567891234</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#cb4b16">false</span>, <span style="color:#cb4b16">true</span>, <span style="color:#cb4b16">null</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       areDue
+      </strong>
+     </p>
+     <p>
+      Returns an array indicating whether each of the given cards is due (in the same order).
+      <em>
+       Note
+      </em>
+      : cards in the
+learning queue with a large interval (over 20 minutes) are treated as not due until the time of their interval has
+passed, to match the way Anki treats them when reviewing.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"areDue"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1483959291685</span>, <span style="color:#2aa198">1483959293217</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#cb4b16">false</span>, <span style="color:#cb4b16">true</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       getIntervals
+      </strong>
+     </p>
+     <p>
+      Returns an array of the most recent intervals for each given card ID, or a 2-dimensional array of all the intervals
+for each given card ID when
+      <code>
+       complete
+      </code>
+      is
+      <code>
+       true
+      </code>
+      . Negative intervals are in seconds and positive intervals in days.
+     </p>
+     <p>
+      <em>
+       Sample request 1
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getIntervals"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1502298033753</span>, <span style="color:#2aa198">1502298036657</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result 1
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">-14400</span>, <span style="color:#2aa198">3</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample request 2
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getIntervals"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1502298033753</span>, <span style="color:#2aa198">1502298036657</span>],
+        <span style="color:#268bd2">"complete"</span>: <span style="color:#cb4b16">true</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result 2
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [
+        [<span style="color:#2aa198">-120</span>, <span style="color:#2aa198">-180</span>, <span style="color:#2aa198">-240</span>, <span style="color:#2aa198">-300</span>, <span style="color:#2aa198">-360</span>, <span style="color:#2aa198">-14400</span>],
+        [<span style="color:#2aa198">-120</span>, <span style="color:#2aa198">-180</span>, <span style="color:#2aa198">-240</span>, <span style="color:#2aa198">-300</span>, <span style="color:#2aa198">-360</span>, <span style="color:#2aa198">-14400</span>, <span style="color:#2aa198">1</span>, <span style="color:#2aa198">3</span>]
+    ],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       findCards
+      </strong>
+     </p>
+     <p>
+      Returns an array of card IDs for a given query. Functionally identical to
+      <code>
+       guiBrowse
+      </code>
+      but doesn’t use the GUI for
+better performance.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"findCards"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"query"</span>: <span style="color:#2aa198">"deck:current"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">1494723142483</span>, <span style="color:#2aa198">1494703460437</span>, <span style="color:#2aa198">1494703479525</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       cardsToNotes
+      </strong>
+     </p>
+     <p>
+      Returns an unordered array of note IDs for the given card IDs. For cards with the same note, the ID is only given
+once in the array.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"cardsToNotes"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1502098034045</span>, <span style="color:#2aa198">1502098034048</span>, <span style="color:#2aa198">1502298033753</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">1502098029797</span>, <span style="color:#2aa198">1502298025183</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       cardsInfo
+      </strong>
+     </p>
+     <p>
+      Returns a list of objects containing for each card ID the card fields, front and back sides including CSS, note
+type, the note that the card belongs to, and deck name, as well as ease and interval.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"cardsInfo"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1498938915662</span>, <span style="color:#2aa198">1502098034048</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [
+        {
+            <span style="color:#268bd2">"answer"</span>: <span style="color:#2aa198">"back content"</span>,
+            <span style="color:#268bd2">"question"</span>: <span style="color:#2aa198">"front content"</span>,
+            <span style="color:#268bd2">"deckName"</span>: <span style="color:#2aa198">"Default"</span>,
+            <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Basic"</span>,
+            <span style="color:#268bd2">"fieldOrder"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"fields"</span>: {
+                <span style="color:#268bd2">"Front"</span>: {<span style="color:#268bd2">"value"</span>: <span style="color:#2aa198">"front content"</span>, <span style="color:#268bd2">"order"</span>: <span style="color:#2aa198">0</span>},
+                <span style="color:#268bd2">"Back"</span>: {<span style="color:#268bd2">"value"</span>: <span style="color:#2aa198">"back content"</span>, <span style="color:#268bd2">"order"</span>: <span style="color:#2aa198">1</span>}
+            },
+            <span style="color:#268bd2">"css"</span>:<span style="color:#2aa198">"p {font-family:Arial;}"</span>,
+            <span style="color:#268bd2">"cardId"</span>: <span style="color:#2aa198">1498938915662</span>,
+            <span style="color:#268bd2">"interval"</span>: <span style="color:#2aa198">16</span>,
+            <span style="color:#268bd2">"note"</span>:<span style="color:#2aa198">1502298033753</span>,
+            <span style="color:#268bd2">"ord"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"type"</span>: <span style="color:#2aa198">0</span>,
+            <span style="color:#268bd2">"queue"</span>: <span style="color:#2aa198">0</span>,
+            <span style="color:#268bd2">"due"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"reps"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"lapses"</span>: <span style="color:#2aa198">0</span>,
+            <span style="color:#268bd2">"left"</span>: <span style="color:#2aa198">6</span>
+        },
+        {
+            <span style="color:#268bd2">"answer"</span>: <span style="color:#2aa198">"back content"</span>,
+            <span style="color:#268bd2">"question"</span>: <span style="color:#2aa198">"front content"</span>,
+            <span style="color:#268bd2">"deckName"</span>: <span style="color:#2aa198">"Default"</span>,
+            <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Basic"</span>,
+            <span style="color:#268bd2">"fieldOrder"</span>: <span style="color:#2aa198">0</span>,
+            <span style="color:#268bd2">"fields"</span>: {
+                <span style="color:#268bd2">"Front"</span>: {<span style="color:#268bd2">"value"</span>: <span style="color:#2aa198">"front content"</span>, <span style="color:#268bd2">"order"</span>: <span style="color:#2aa198">0</span>},
+                <span style="color:#268bd2">"Back"</span>: {<span style="color:#268bd2">"value"</span>: <span style="color:#2aa198">"back content"</span>, <span style="color:#268bd2">"order"</span>: <span style="color:#2aa198">1</span>}
+            },
+            <span style="color:#268bd2">"css"</span>:<span style="color:#2aa198">"p {font-family:Arial;}"</span>,
+            <span style="color:#268bd2">"cardId"</span>: <span style="color:#2aa198">1502098034048</span>,
+            <span style="color:#268bd2">"interval"</span>: <span style="color:#2aa198">23</span>,
+            <span style="color:#268bd2">"note"</span>:<span style="color:#2aa198">1502298033753</span>,
+            <span style="color:#268bd2">"ord"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"type"</span>: <span style="color:#2aa198">0</span>,
+            <span style="color:#268bd2">"queue"</span>: <span style="color:#2aa198">0</span>,
+            <span style="color:#268bd2">"due"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"reps"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"lapses"</span>: <span style="color:#2aa198">0</span>,
+            <span style="color:#268bd2">"left"</span>: <span style="color:#2aa198">6</span>
+        }
+    ],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       forgetCards
+      </strong>
+     </p>
+     <p>
+      Forget cards, making the cards new again.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"forgetCards"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1498938915662</span>, <span style="color:#2aa198">1502098034048</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       relearnCards
+      </strong>
+     </p>
+     <p>
+      Make cards be “relearning”.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"relearnCards"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1498938915662</span>, <span style="color:#2aa198">1502098034048</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+   </ul>
+   <h4 id="deck-actions">
+    Deck Actions
+   </h4>
+   <ul>
+    <li>
+     <p>
+      <strong>
+       deckNames
+      </strong>
+     </p>
+     <p>
+      Gets the complete list of deck names for the current user.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"deckNames"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">"Default"</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       deckNamesAndIds
+      </strong>
+     </p>
+     <p>
+      Gets the complete list of deck names and their respective IDs for the current user.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"deckNamesAndIds"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: {<span style="color:#268bd2">"Default"</span>: <span style="color:#2aa198">1</span>},
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       getDecks
+      </strong>
+     </p>
+     <p>
+      Accepts an array of card IDs and returns an object with each deck name as a key, and its value an array of the given
+cards which belong to it.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getDecks"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1502298036657</span>, <span style="color:#2aa198">1502298033753</span>, <span style="color:#2aa198">1502032366472</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: {
+        <span style="color:#268bd2">"Default"</span>: [<span style="color:#2aa198">1502032366472</span>],
+        <span style="color:#268bd2">"Japanese::JLPT N3"</span>: [<span style="color:#2aa198">1502298036657</span>, <span style="color:#2aa198">1502298033753</span>]
+    },
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       createDeck
+      </strong>
+     </p>
+     <p>
+      Create a new empty deck. Will not overwrite a deck that exists with the same name.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"createDeck"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"deck"</span>: <span style="color:#2aa198">"Japanese::Tokyo"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">1519323742721</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       changeDeck
+      </strong>
+     </p>
+     <p>
+      Moves cards with the given IDs to a different deck, creating the deck if it doesn’t exist yet.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"changeDeck"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"cards"</span>: [<span style="color:#2aa198">1502098034045</span>, <span style="color:#2aa198">1502098034048</span>, <span style="color:#2aa198">1502298033753</span>],
+        <span style="color:#268bd2">"deck"</span>: <span style="color:#2aa198">"Japanese::JLPT N3"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       deleteDecks
+      </strong>
+     </p>
+     <p>
+      Deletes decks with the given names. If
+      <code>
+       cardsToo
+      </code>
+      is
+      <code>
+       true
+      </code>
+      (defaults to
+      <code>
+       false
+      </code>
+      if unspecified), the cards within
+the deleted decks will also be deleted; otherwise they will be moved to the default deck.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"deleteDecks"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"decks"</span>: [<span style="color:#2aa198">"Japanese::JLPT N5"</span>, <span style="color:#2aa198">"Easy Spanish"</span>],
+        <span style="color:#268bd2">"cardsToo"</span>: <span style="color:#cb4b16">true</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       getDeckConfig
+      </strong>
+     </p>
+     <p>
+      Gets the configuration group object for the given deck.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getDeckConfig"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"deck"</span>: <span style="color:#2aa198">"Default"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: {
+        <span style="color:#268bd2">"lapse"</span>: {
+            <span style="color:#268bd2">"leechFails"</span>: <span style="color:#2aa198">8</span>,
+            <span style="color:#268bd2">"delays"</span>: [<span style="color:#2aa198">10</span>],
+            <span style="color:#268bd2">"minInt"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"leechAction"</span>: <span style="color:#2aa198">0</span>,
+            <span style="color:#268bd2">"mult"</span>: <span style="color:#2aa198">0</span>
+        },
+        <span style="color:#268bd2">"dyn"</span>: <span style="color:#cb4b16">false</span>,
+        <span style="color:#268bd2">"autoplay"</span>: <span style="color:#cb4b16">true</span>,
+        <span style="color:#268bd2">"mod"</span>: <span style="color:#2aa198">1502970872</span>,
+        <span style="color:#268bd2">"id"</span>: <span style="color:#2aa198">1</span>,
+        <span style="color:#268bd2">"maxTaken"</span>: <span style="color:#2aa198">60</span>,
+        <span style="color:#268bd2">"new"</span>: {
+            <span style="color:#268bd2">"bury"</span>: <span style="color:#cb4b16">true</span>,
+            <span style="color:#268bd2">"order"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"initialFactor"</span>: <span style="color:#2aa198">2500</span>,
+            <span style="color:#268bd2">"perDay"</span>: <span style="color:#2aa198">20</span>,
+            <span style="color:#268bd2">"delays"</span>: [<span style="color:#2aa198">1</span>, <span style="color:#2aa198">10</span>],
+            <span style="color:#268bd2">"separate"</span>: <span style="color:#cb4b16">true</span>,
+            <span style="color:#268bd2">"ints"</span>: [<span style="color:#2aa198">1</span>, <span style="color:#2aa198">4</span>, <span style="color:#2aa198">7</span>]
+        },
+        <span style="color:#268bd2">"name"</span>: <span style="color:#2aa198">"Default"</span>,
+        <span style="color:#268bd2">"rev"</span>: {
+            <span style="color:#268bd2">"bury"</span>: <span style="color:#cb4b16">true</span>,
+            <span style="color:#268bd2">"ivlFct"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"ease4"</span>: <span style="color:#2aa198">1.3</span>,
+            <span style="color:#268bd2">"maxIvl"</span>: <span style="color:#2aa198">36500</span>,
+            <span style="color:#268bd2">"perDay"</span>: <span style="color:#2aa198">100</span>,
+            <span style="color:#268bd2">"minSpace"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"fuzz"</span>: <span style="color:#2aa198">0.05</span>
+        },
+        <span style="color:#268bd2">"timer"</span>: <span style="color:#2aa198">0</span>,
+        <span style="color:#268bd2">"replayq"</span>: <span style="color:#cb4b16">true</span>,
+        <span style="color:#268bd2">"usn"</span>: <span style="color:#2aa198">-1</span>
+    },
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       saveDeckConfig
+      </strong>
+     </p>
+     <p>
+      Saves the given configuration group, returning
+      <code>
+       true
+      </code>
+      on success or
+      <code>
+       false
+      </code>
+      if the ID of the configuration group is
+invalid (such as when it does not exist).
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"saveDeckConfig"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"config"</span>: {
+            <span style="color:#268bd2">"lapse"</span>: {
+                <span style="color:#268bd2">"leechFails"</span>: <span style="color:#2aa198">8</span>,
+                <span style="color:#268bd2">"delays"</span>: [<span style="color:#2aa198">10</span>],
+                <span style="color:#268bd2">"minInt"</span>: <span style="color:#2aa198">1</span>,
+                <span style="color:#268bd2">"leechAction"</span>: <span style="color:#2aa198">0</span>,
+                <span style="color:#268bd2">"mult"</span>: <span style="color:#2aa198">0</span>
+            },
+            <span style="color:#268bd2">"dyn"</span>: <span style="color:#cb4b16">false</span>,
+            <span style="color:#268bd2">"autoplay"</span>: <span style="color:#cb4b16">true</span>,
+            <span style="color:#268bd2">"mod"</span>: <span style="color:#2aa198">1502970872</span>,
+            <span style="color:#268bd2">"id"</span>: <span style="color:#2aa198">1</span>,
+            <span style="color:#268bd2">"maxTaken"</span>: <span style="color:#2aa198">60</span>,
+            <span style="color:#268bd2">"new"</span>: {
+                <span style="color:#268bd2">"bury"</span>: <span style="color:#cb4b16">true</span>,
+                <span style="color:#268bd2">"order"</span>: <span style="color:#2aa198">1</span>,
+                <span style="color:#268bd2">"initialFactor"</span>: <span style="color:#2aa198">2500</span>,
+                <span style="color:#268bd2">"perDay"</span>: <span style="color:#2aa198">20</span>,
+                <span style="color:#268bd2">"delays"</span>: [<span style="color:#2aa198">1</span>, <span style="color:#2aa198">10</span>],
+                <span style="color:#268bd2">"separate"</span>: <span style="color:#cb4b16">true</span>,
+                <span style="color:#268bd2">"ints"</span>: [<span style="color:#2aa198">1</span>, <span style="color:#2aa198">4</span>, <span style="color:#2aa198">7</span>]
+            },
+            <span style="color:#268bd2">"name"</span>: <span style="color:#2aa198">"Default"</span>,
+            <span style="color:#268bd2">"rev"</span>: {
+                <span style="color:#268bd2">"bury"</span>: <span style="color:#cb4b16">true</span>,
+                <span style="color:#268bd2">"ivlFct"</span>: <span style="color:#2aa198">1</span>,
+                <span style="color:#268bd2">"ease4"</span>: <span style="color:#2aa198">1.3</span>,
+                <span style="color:#268bd2">"maxIvl"</span>: <span style="color:#2aa198">36500</span>,
+                <span style="color:#268bd2">"perDay"</span>: <span style="color:#2aa198">100</span>,
+                <span style="color:#268bd2">"minSpace"</span>: <span style="color:#2aa198">1</span>,
+                <span style="color:#268bd2">"fuzz"</span>: <span style="color:#2aa198">0.05</span>
+            },
+            <span style="color:#268bd2">"timer"</span>: <span style="color:#2aa198">0</span>,
+            <span style="color:#268bd2">"replayq"</span>: <span style="color:#cb4b16">true</span>,
+            <span style="color:#268bd2">"usn"</span>: <span style="color:#2aa198">-1</span>
+        }
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       setDeckConfigId
+      </strong>
+     </p>
+     <p>
+      Changes the configuration group for the given decks to the one with the given ID. Returns
+      <code>
+       true
+      </code>
+      on success or
+      <code>
+       false
+      </code>
+      if the given configuration group or any of the given decks do not exist.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"setDeckConfigId"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"decks"</span>: [<span style="color:#2aa198">"Default"</span>],
+        <span style="color:#268bd2">"configId"</span>: <span style="color:#2aa198">1</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       cloneDeckConfigId
+      </strong>
+     </p>
+     <p>
+      Creates a new configuration group with the given name, cloning from the group with the given ID, or from the default
+group if this is unspecified. Returns the ID of the new configuration group, or
+      <code>
+       false
+      </code>
+      if the specified group to
+clone from does not exist.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"cloneDeckConfigId"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"name"</span>: <span style="color:#2aa198">"Copy of Default"</span>,
+        <span style="color:#268bd2">"cloneFrom"</span>: <span style="color:#2aa198">1</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">1502972374573</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       removeDeckConfigId
+      </strong>
+     </p>
+     <p>
+      Removes the configuration group with the given ID, returning
+      <code>
+       true
+      </code>
+      if successful, or
+      <code>
+       false
+      </code>
+      if attempting to
+remove either the default configuration group (ID = 1) or a configuration group that does not exist.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"removeDeckConfigId"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"configId"</span>: <span style="color:#2aa198">1502972374573</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       updateCompleteDeck
+      </strong>
+     </p>
+     <p>
+      Pastes all transmitted data into the database and reloads the collection.
+You can send a deckName and corresponding cards, notes and models.
+All cards are assumed to belong to the given deck.
+All notes referenced by given cards should be present.
+All models referenced by given notes should be present.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"updateCompleteDeck"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"data"</span>:  {
+            <span style="color:#268bd2">"deck"</span>: <span style="color:#2aa198">"test3"</span>,
+            <span style="color:#268bd2">"cards"</span>: {
+                 <span style="color:#268bd2">"1485369472028"</span>: {
+                     <span style="color:#268bd2">"id"</span>: <span style="color:#2aa198">1485369472028</span>,
+                     <span style="color:#268bd2">"nid"</span>: <span style="color:#2aa198">1485369340204</span>,
+                     <span style="color:#268bd2">"ord"</span>: <span style="color:#2aa198">0</span>,
+                     <span style="color:#268bd2">"type"</span>: <span style="color:#2aa198">0</span>,
+                     <span style="color:#268bd2">"queue"</span>: <span style="color:#2aa198">0</span>,
+                     <span style="color:#268bd2">"due"</span>: <span style="color:#2aa198">1186031</span>,
+                     <span style="color:#268bd2">"factor"</span>: <span style="color:#2aa198">0</span>,
+                     <span style="color:#268bd2">"ivl"</span>: <span style="color:#2aa198">0</span>,
+                     <span style="color:#268bd2">"reps"</span>: <span style="color:#2aa198">0</span>,
+                     <span style="color:#268bd2">"lapses"</span>: <span style="color:#2aa198">0</span>,
+                     <span style="color:#268bd2">"left"</span>: <span style="color:#2aa198">0</span>
+                 }
+            },
+            <span style="color:#268bd2">"notes"</span>: {
+                <span style="color:#268bd2">"1485369340204"</span>: {
+                    <span style="color:#268bd2">"id"</span>: <span style="color:#2aa198">1485369340204</span>,
+                    <span style="color:#268bd2">"mid"</span>: <span style="color:#2aa198">1375786181313</span>,
+                    <span style="color:#268bd2">"fields"</span>: [
+                        <span style="color:#2aa198">"frontValue"</span>,
+                        <span style="color:#2aa198">"backValue"</span>
+                    ],
+                    <span style="color:#268bd2">"tags"</span>: [
+                        <span style="color:#2aa198">"aTag"</span>
+                    ]
+                }
+            },
+            <span style="color:#268bd2">"models"</span>: {
+                <span style="color:#268bd2">"1375786181313"</span>: {
+                    <span style="color:#268bd2">"id"</span>: <span style="color:#2aa198">1375786181313</span>,
+                    <span style="color:#268bd2">"name"</span>: <span style="color:#2aa198">"anotherModel"</span>,
+                    <span style="color:#268bd2">"fields"</span>: [
+                        <span style="color:#2aa198">"Front"</span>,
+                        <span style="color:#2aa198">"Back"</span>
+                    ],
+                    <span style="color:#268bd2">"templateNames"</span>: [
+                        <span style="color:#2aa198">"Card 1"</span>
+                    ]
+                }
+            }
+        }
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+   </ul>
+   <h4 id="graphical-actions">
+    Graphical Actions
+   </h4>
+   <ul>
+    <li>
+     <p>
+      <strong>
+       guiBrowse
+      </strong>
+     </p>
+     <p>
+      Invokes the
+      <em>
+       Card Browser
+      </em>
+      dialog and searches for a given query. Returns an array of identifiers of the cards that
+were found. Query syntax is
+      <a href="https://docs.ankiweb.net/#/searching">
+       documented here
+      </a>
+      .
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiBrowse"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"query"</span>: <span style="color:#2aa198">"deck:current"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">1494723142483</span>, <span style="color:#2aa198">1494703460437</span>, <span style="color:#2aa198">1494703479525</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       guiAddCards
+      </strong>
+     </p>
+     <p>
+      Invokes the
+      <em>
+       Add Cards
+      </em>
+      dialog, presets the note using the given deck and model, with the provided field values and tags.
+Invoking it multiple times closes the old window and
+      <em>
+       reopen the window
+      </em>
+      with the new provided values.
+     </p>
+     <p>
+      Audio, video, and picture files can be embedded into the fields via the
+      <code>
+       audio
+      </code>
+      ,
+      <code>
+       video
+      </code>
+      , and
+      <code>
+       picture
+      </code>
+      keys, respectively.
+Refer to the documentation of
+      <code>
+       addNote
+      </code>
+      and
+      <code>
+       storeMediaFile
+      </code>
+      for an explanation of these fields.
+     </p>
+     <p>
+      The
+      <code>
+       closeAfterAdding
+      </code>
+      member inside
+      <code>
+       options
+      </code>
+      group can be set to true to create a dialog that closes upon adding the note.
+Invoking the action mutliple times with this option will create
+      <em>
+       multiple windows
+      </em>
+      .
+     </p>
+     <p>
+      The result is the ID of the note which would be added, if the user chose to confirm the
+      <em>
+       Add Cards
+      </em>
+      dialogue.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiAddCards"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"note"</span>: {
+            <span style="color:#268bd2">"deckName"</span>: <span style="color:#2aa198">"Default"</span>,
+            <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Cloze"</span>,
+            <span style="color:#268bd2">"fields"</span>: {
+                <span style="color:#268bd2">"Text"</span>: <span style="color:#2aa198">"The capital of Romania is {{c1::Bucharest}}"</span>,
+                <span style="color:#268bd2">"Extra"</span>: <span style="color:#2aa198">"Romania is a country in Europe"</span>
+            },
+            <span style="color:#268bd2">"options"</span>: {
+                <span style="color:#268bd2">"closeAfterAdding"</span>: <span style="color:#cb4b16">true</span>
+            },
+            <span style="color:#268bd2">"tags"</span>: [
+              <span style="color:#2aa198">"countries"</span>
+            ],
+            <span style="color:#268bd2">"picture"</span>: [{
+                <span style="color:#268bd2">"url"</span>: <span style="color:#2aa198">"https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/EU-Romania.svg/285px-EU-Romania.svg.png"</span>,
+                <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"romania.png"</span>,
+                <span style="color:#268bd2">"fields"</span>: [
+                    <span style="color:#2aa198">"Extra"</span>
+                ]
+            }]
+        }
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">1496198395707</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       guiCurrentCard
+      </strong>
+     </p>
+     <p>
+      Returns information about the current card or
+      <code>
+       null
+      </code>
+      if not in review mode.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiCurrentCard"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: {
+        <span style="color:#268bd2">"answer"</span>: <span style="color:#2aa198">"back content"</span>,
+        <span style="color:#268bd2">"question"</span>: <span style="color:#2aa198">"front content"</span>,
+        <span style="color:#268bd2">"deckName"</span>: <span style="color:#2aa198">"Default"</span>,
+        <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Basic"</span>,
+        <span style="color:#268bd2">"fieldOrder"</span>: <span style="color:#2aa198">0</span>,
+        <span style="color:#268bd2">"fields"</span>: {
+            <span style="color:#268bd2">"Front"</span>: {<span style="color:#268bd2">"value"</span>: <span style="color:#2aa198">"front content"</span>, <span style="color:#268bd2">"order"</span>: <span style="color:#2aa198">0</span>},
+            <span style="color:#268bd2">"Back"</span>: {<span style="color:#268bd2">"value"</span>: <span style="color:#2aa198">"back content"</span>, <span style="color:#268bd2">"order"</span>: <span style="color:#2aa198">1</span>}
+        },
+        <span style="color:#268bd2">"template"</span>: <span style="color:#2aa198">"Forward"</span>,
+        <span style="color:#268bd2">"cardId"</span>: <span style="color:#2aa198">1498938915662</span>,
+        <span style="color:#268bd2">"buttons"</span>: [<span style="color:#2aa198">1</span>, <span style="color:#2aa198">2</span>, <span style="color:#2aa198">3</span>],
+        <span style="color:#268bd2">"nextReviews"</span>: [<span style="color:#2aa198">"&lt;1m"</span>, <span style="color:#2aa198">"&lt;10m"</span>, <span style="color:#2aa198">"4d"</span>]
+    },
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       guiStartCardTimer
+      </strong>
+     </p>
+     <p>
+      Starts or resets the
+      <code>
+       timerStarted
+      </code>
+      value for the current card. This is useful for deferring the start time to when
+it is displayed via the API, allowing the recorded time taken to answer the card to be more accurate when calling
+      <code>
+       guiAnswerCard
+      </code>
+      .
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiStartCardTimer"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       guiShowQuestion
+      </strong>
+     </p>
+     <p>
+      Shows question text for the current card; returns
+      <code>
+       true
+      </code>
+      if in review mode or
+      <code>
+       false
+      </code>
+      otherwise.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiShowQuestion"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       guiShowAnswer
+      </strong>
+     </p>
+     <p>
+      Shows answer text for the current card; returns
+      <code>
+       true
+      </code>
+      if in review mode or
+      <code>
+       false
+      </code>
+      otherwise.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiShowAnswer"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       guiAnswerCard
+      </strong>
+     </p>
+     <p>
+      Answers the current card; returns
+      <code>
+       true
+      </code>
+      if succeeded or
+      <code>
+       false
+      </code>
+      otherwise. Note that the answer for the current
+card must be displayed before before any answer can be accepted by Anki.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiAnswerCard"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"ease"</span>: <span style="color:#2aa198">1</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       guiDeckOverview
+      </strong>
+     </p>
+     <p>
+      Opens the
+      <em>
+       Deck Overview
+      </em>
+      dialog for the deck with the given name; returns
+      <code>
+       true
+      </code>
+      if succeeded or
+      <code>
+       false
+      </code>
+      otherwise.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiDeckOverview"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"name"</span>: <span style="color:#2aa198">"Default"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       guiDeckBrowser
+      </strong>
+     </p>
+     <p>
+      Opens the
+      <em>
+       Deck Browser
+      </em>
+      dialog.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiDeckBrowser"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       guiDeckReview
+      </strong>
+     </p>
+     <p>
+      Starts review for the deck with the given name; returns
+      <code>
+       true
+      </code>
+      if succeeded or
+      <code>
+       false
+      </code>
+      otherwise.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiDeckReview"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"name"</span>: <span style="color:#2aa198">"Default"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       guiExitAnki
+      </strong>
+     </p>
+     <p>
+      Schedules a request to gracefully close Anki. This operation is asynchronous, so it will return immediately and
+won’t wait until the Anki process actually terminates.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiExitAnki"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       guiCheckDatabase
+      </strong>
+     </p>
+     <p>
+      Requests a database check, but returns immediately without waiting for the check to complete. Therefore, the action will always return
+      <code>
+       true
+      </code>
+      even if errors are detected during the database check.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"guiCheckDatabase"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+   </ul>
+   <h4 id="media-actions">
+    Media Actions
+   </h4>
+   <ul>
+    <li>
+     <p>
+      <strong>
+       storeMediaFile
+      </strong>
+     </p>
+     <p>
+      Stores a file with the specified base64-encoded contents inside the media folder. Alternatively you can specify a
+absolute file path, or a url from where the file shell be downloaded. If more than one of
+      <code>
+       data
+      </code>
+      ,
+      <code>
+       path
+      </code>
+      and
+      <code>
+       url
+      </code>
+      are provided, the
+      <code>
+       data
+      </code>
+      field will be used first, then
+      <code>
+       path
+      </code>
+      , and finally
+      <code>
+       url
+      </code>
+      . To prevent Anki from removing files not used by any cards (e.g. for configuration files), prefix the filename with an underscore. These files are still synchronized to AnkiWeb.
+Any existing file with the same name is deleted by default. Set
+      <code>
+       deleteExisting
+      </code>
+      to false to prevent that
+by
+      <a href="https://github.com/ankitects/anki/blob/aeba725d3ea9628c73300648f748140db3fdd5ed/rslib/src/media/files.rs#L194">
+       letting Anki give the new file a non-conflicting name
+      </a>
+      .
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"storeMediaFile"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"_hello.txt"</span>,
+        <span style="color:#268bd2">"data"</span>: <span style="color:#2aa198">"SGVsbG8sIHdvcmxkIQ=="</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">"_hello.txt"</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+     <p>
+      <em>
+       Content of
+       <code>
+        _hello.txt
+       </code>
+      </em>
+      :
+     </p>
+     <pre><code>Hello world!
+</code></pre>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"storeMediaFile"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"_hello.txt"</span>,
+        <span style="color:#268bd2">"path"</span>: <span style="color:#2aa198">"/path/to/file"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">"_hello.txt"</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"storeMediaFile"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"_hello.txt"</span>,
+        <span style="color:#268bd2">"url"</span>: <span style="color:#2aa198">"https://url.to.file"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">"_hello.txt"</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       retrieveMediaFile
+      </strong>
+     </p>
+     <p>
+      Retrieves the base64-encoded contents of the specified file, returning
+      <code>
+       false
+      </code>
+      if the file does not exist.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"retrieveMediaFile"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"_hello.txt"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">"SGVsbG8sIHdvcmxkIQ=="</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       getMediaFilesNames
+      </strong>
+     </p>
+     <p>
+      Gets the names of media files matched the pattern. Returning all names by default.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getMediaFilesNames"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"pattern"</span>: <span style="color:#2aa198">"_hell*.txt"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">"_hello.txt"</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       deleteMediaFile
+      </strong>
+     </p>
+     <p>
+      Deletes the specified file inside the media folder.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"deleteMediaFile"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"_hello.txt"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+   </ul>
+   <h4 id="miscellaneous-actions">
+    Miscellaneous Actions
+   </h4>
+   <ul>
+    <li>
+     <p>
+      <strong>
+       requestPermission
+      </strong>
+     </p>
+     <p>
+      Request permission to use the API exposed by this plugin. Only request coming from origin listed in the
+      <code>
+       webCorsOriginList
+      </code>
+      option are allowed to use the Api. Calling this method will display a popup asking the user
+if he want to allow your origin to use the Api. This is the only method that can be called even if the origin of
+the request isn’t in the
+      <code>
+       webCorsOriginList
+      </code>
+      list. It also doesn’t require the api key. Calling this method will
+not display the popup if the origin is already trusted.
+     </p>
+     <p>
+      This should be the first call you make to make sure that your application and AnkiConnect are able to communicate
+properly with each other. New versions of AnkiConnect are backwards compatible; as long as you are using actions
+which are available in the reported AnkiConnect version or earlier, everything should work fine.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"requestPermission"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Samples results
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: {
+        <span style="color:#268bd2">"permission"</span>: <span style="color:#2aa198">"granted"</span>,
+        <span style="color:#268bd2">"requireApiKey"</span>: <span style="color:#cb4b16">false</span>,
+        <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+    },
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: {
+        <span style="color:#268bd2">"permission"</span>: <span style="color:#2aa198">"denied"</span>
+    },
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       version
+      </strong>
+     </p>
+     <p>
+      Gets the version of the API exposed by this plugin. Currently versions
+      <code>
+       1
+      </code>
+      through
+      <code>
+       6
+      </code>
+      are defined.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"version"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       sync
+      </strong>
+     </p>
+     <p>
+      Synchronizes the local Anki collections with AnkiWeb.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"sync"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       getProfiles
+      </strong>
+     </p>
+     <p>
+      Retrieve the list of profiles.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getProfiles"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">"User 1"</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       loadProfile
+      </strong>
+     </p>
+     <p>
+      Selects the profile specified in request.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"loadProfile"</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"name"</span>: <span style="color:#2aa198">"user1"</span>
+    },
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       multi
+      </strong>
+     </p>
+     <p>
+      Performs multiple actions in one request, returning an array with the response of each action (in the given order).
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"multi"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"actions"</span>: [
+            {<span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"deckNames"</span>},
+            {
+                <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"browse"</span>,
+                <span style="color:#268bd2">"params"</span>: {<span style="color:#268bd2">"query"</span>: <span style="color:#2aa198">"deck:current"</span>}
+            }
+        ]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [
+        {<span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">"Default"</span>, <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>},
+        {<span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">1494723142483</span>, <span style="color:#2aa198">1494703460437</span>, <span style="color:#2aa198">1494703479525</span>], <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>}
+    ],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       exportPackage
+      </strong>
+     </p>
+     <p>
+      Exports a given deck in
+      <code>
+       .apkg
+      </code>
+      format. Returns
+      <code>
+       true
+      </code>
+      if successful or
+      <code>
+       false
+      </code>
+      otherwise. The optional property
+      <code>
+       includeSched
+      </code>
+      (default is
+      <code>
+       false
+      </code>
+      ) can be specified to include the cards' scheduling data.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"exportPackage"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"deck"</span>: <span style="color:#2aa198">"Default"</span>,
+        <span style="color:#268bd2">"path"</span>: <span style="color:#2aa198">"/data/Deck.apkg"</span>,
+        <span style="color:#268bd2">"includeSched"</span>: <span style="color:#cb4b16">true</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       importPackage
+      </strong>
+     </p>
+     <p>
+      Imports a file in
+      <code>
+       .apkg
+      </code>
+      format into the collection. Returns
+      <code>
+       true
+      </code>
+      if successful or
+      <code>
+       false
+      </code>
+      otherwise.
+Note that the file path is relative to Anki’s collection.media folder, not to the client.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"importPackage"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"path"</span>: <span style="color:#2aa198">"/data/Deck.apkg"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">true</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       reloadCollection
+      </strong>
+     </p>
+     <p>
+      Tells anki to reload all data from the database.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"reloadCollection"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+   </ul>
+   <h4 id="model-actions">
+    Model Actions
+   </h4>
+   <ul>
+    <li>
+     <p>
+      <strong>
+       modelNames
+      </strong>
+     </p>
+     <p>
+      Gets the complete list of model names for the current user.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"modelNames"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">"Basic"</span>, <span style="color:#2aa198">"Basic (and reversed card)"</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       modelNamesAndIds
+      </strong>
+     </p>
+     <p>
+      Gets the complete list of model names and their corresponding IDs for the current user.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"modelNamesAndIds"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: {
+        <span style="color:#268bd2">"Basic"</span>: <span style="color:#2aa198">1483883011648</span>,
+        <span style="color:#268bd2">"Basic (and reversed card)"</span>: <span style="color:#2aa198">1483883011644</span>,
+        <span style="color:#268bd2">"Basic (optional reversed card)"</span>: <span style="color:#2aa198">1483883011631</span>,
+        <span style="color:#268bd2">"Cloze"</span>: <span style="color:#2aa198">1483883011630</span>
+    },
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       modelFieldNames
+      </strong>
+     </p>
+     <p>
+      Gets the complete list of field names for the provided model name.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"modelFieldNames"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Basic"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">"Front"</span>, <span style="color:#2aa198">"Back"</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       modelFieldsOnTemplates
+      </strong>
+     </p>
+     <p>
+      Returns an object indicating the fields on the question and answer side of each card template for the given model
+name. The question side is given first in each array.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"modelFieldsOnTemplates"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Basic (and reversed card)"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: {
+        <span style="color:#268bd2">"Card 1"</span>: [[<span style="color:#2aa198">"Front"</span>], [<span style="color:#2aa198">"Back"</span>]],
+        <span style="color:#268bd2">"Card 2"</span>: [[<span style="color:#2aa198">"Back"</span>], [<span style="color:#2aa198">"Front"</span>]]
+    },
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       createModel
+      </strong>
+     </p>
+     <p>
+      Creates a new model to be used in Anki. User must provide the
+      <code>
+       modelName
+      </code>
+      ,
+      <code>
+       inOrderFields
+      </code>
+      and
+      <code>
+       cardTemplates
+      </code>
+      to be
+used in the model. There are optinal fields
+      <code>
+       css
+      </code>
+      and
+      <code>
+       isCloze
+      </code>
+      . If not specified,
+      <code>
+       css
+      </code>
+      will use the default Anki css and
+      <code>
+       isCloze
+      </code>
+      will be equal to
+      <code>
+       False
+      </code>
+      . If
+      <code>
+       isCloze
+      </code>
+      is
+      <code>
+       True
+      </code>
+      then model will be created as Cloze.
+     </p>
+     <p>
+      Optionally the
+      <code>
+       Name
+      </code>
+      field can be provided for each entry of
+      <code>
+       cardTemplates
+      </code>
+      . By default the
+card names will be
+      <code>
+       Card 1
+      </code>
+      ,
+      <code>
+       Card 2
+      </code>
+      , and so on.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"createModel"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"newModelName"</span>,
+        <span style="color:#268bd2">"inOrderFields"</span>: [<span style="color:#2aa198">"Field1"</span>, <span style="color:#2aa198">"Field2"</span>, <span style="color:#2aa198">"Field3"</span>],
+        <span style="color:#268bd2">"css"</span>: <span style="color:#2aa198">"Optional CSS with default to builtin css"</span>,
+        <span style="color:#268bd2">"isCloze"</span>: false,
+        <span style="color:#268bd2">"cardTemplates"</span>: [
+            {
+                <span style="color:#268bd2">"Name"</span>: <span style="color:#2aa198">"My Card 1"</span>,
+                <span style="color:#268bd2">"Front"</span>: <span style="color:#2aa198">"Front html {{Field1}}"</span>,
+                <span style="color:#268bd2">"Back"</span>: <span style="color:#2aa198">"Back html  {{Field2}}"</span>
+            }
+        ]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>:{
+        <span style="color:#268bd2">"sortf"</span>:<span style="color:#2aa198">0</span>,
+        <span style="color:#268bd2">"did"</span>:<span style="color:#2aa198">1</span>,
+        <span style="color:#268bd2">"latexPre"</span>:<span style="color:#2aa198">"\\documentclass[12pt]{article}\n\\special{papersize=3in,5in}\n\\usepackage[utf8]{inputenc}\n\\usepackage{amssymb,amsmath}\n\\pagestyle{empty}\n\\setlength{\\parindent}{0in}\n\\begin{document}\n"</span>,
+        <span style="color:#268bd2">"latexPost"</span>:<span style="color:#2aa198">"\\end{document}"</span>,
+        <span style="color:#268bd2">"mod"</span>:<span style="color:#2aa198">1551462107</span>,
+        <span style="color:#268bd2">"usn"</span>:<span style="color:#2aa198">-1</span>,
+        <span style="color:#268bd2">"vers"</span>:[
+
+        ],
+        <span style="color:#268bd2">"type"</span>:<span style="color:#2aa198">0</span>,
+        <span style="color:#268bd2">"css"</span>:<span style="color:#2aa198">".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n"</span>,
+        <span style="color:#268bd2">"name"</span>:<span style="color:#2aa198">"TestApiModel"</span>,
+        <span style="color:#268bd2">"flds"</span>:[
+            {
+                <span style="color:#268bd2">"name"</span>:<span style="color:#2aa198">"Field1"</span>,
+                <span style="color:#268bd2">"ord"</span>:<span style="color:#2aa198">0</span>,
+                <span style="color:#268bd2">"sticky"</span>:<span style="color:#cb4b16">false</span>,
+                <span style="color:#268bd2">"rtl"</span>:<span style="color:#cb4b16">false</span>,
+                <span style="color:#268bd2">"font"</span>:<span style="color:#2aa198">"Arial"</span>,
+                <span style="color:#268bd2">"size"</span>:<span style="color:#2aa198">20</span>,
+                <span style="color:#268bd2">"media"</span>:[
+
+                ]
+            },
+            {
+                <span style="color:#268bd2">"name"</span>:<span style="color:#2aa198">"Field2"</span>,
+                <span style="color:#268bd2">"ord"</span>:<span style="color:#2aa198">1</span>,
+                <span style="color:#268bd2">"sticky"</span>:<span style="color:#cb4b16">false</span>,
+                <span style="color:#268bd2">"rtl"</span>:<span style="color:#cb4b16">false</span>,
+                <span style="color:#268bd2">"font"</span>:<span style="color:#2aa198">"Arial"</span>,
+                <span style="color:#268bd2">"size"</span>:<span style="color:#2aa198">20</span>,
+                <span style="color:#268bd2">"media"</span>:[
+
+                ]
+            }
+        ],
+        <span style="color:#268bd2">"tmpls"</span>:[
+            {
+                <span style="color:#268bd2">"name"</span>:<span style="color:#2aa198">"My Card 1"</span>,
+                <span style="color:#268bd2">"ord"</span>:<span style="color:#2aa198">0</span>,
+                <span style="color:#268bd2">"qfmt"</span>:<span style="color:#2aa198">""</span>,
+                <span style="color:#268bd2">"afmt"</span>:<span style="color:#2aa198">"This is the back of the card {{Field2}}"</span>,
+                <span style="color:#268bd2">"did"</span>:<span style="color:#cb4b16">null</span>,
+                <span style="color:#268bd2">"bqfmt"</span>:<span style="color:#2aa198">""</span>,
+                <span style="color:#268bd2">"bafmt"</span>:<span style="color:#2aa198">""</span>
+            }
+        ],
+        <span style="color:#268bd2">"tags"</span>:[
+
+        ],
+        <span style="color:#268bd2">"id"</span>:<span style="color:#2aa198">"1551462107104"</span>,
+        <span style="color:#268bd2">"req"</span>:[
+            [
+                <span style="color:#2aa198">0</span>,
+                <span style="color:#2aa198">"none"</span>,
+                [
+
+                ]
+            ]
+        ]
+    },
+    <span style="color:#268bd2">"error"</span>:<span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       modelTemplates
+      </strong>
+     </p>
+     <p>
+      Returns an object indicating the template content for each card connected to the provided model by name.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"modelTemplates"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Basic (and reversed card)"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: {
+        <span style="color:#268bd2">"Card 1"</span>: {
+            <span style="color:#268bd2">"Front"</span>: <span style="color:#2aa198">"{{Front}}"</span>,
+            <span style="color:#268bd2">"Back"</span>: <span style="color:#2aa198">"{{FrontSide}}\n\n&lt;hr id=answer&gt;\n\n{{Back}}"</span>
+        },
+        <span style="color:#268bd2">"Card 2"</span>: {
+            <span style="color:#268bd2">"Front"</span>: <span style="color:#2aa198">"{{Back}}"</span>,
+            <span style="color:#268bd2">"Back"</span>: <span style="color:#2aa198">"{{FrontSide}}\n\n&lt;hr id=answer&gt;\n\n{{Front}}"</span>
+        }
+    },
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       modelStyling
+      </strong>
+     </p>
+     <p>
+      Gets the CSS styling for the provided model by name.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"modelStyling"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Basic (and reversed card)"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: {
+        <span style="color:#268bd2">"css"</span>: <span style="color:#2aa198">".card {\n font-family: arial;\n font-size: 20px;\n text-align: center;\n color: black;\n background-color: white;\n}\n"</span>
+    },
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       updateModelTemplates
+      </strong>
+     </p>
+     <p>
+      Modify the templates of an existing model by name. Only specifies cards and specified sides will be modified.
+If an existing card or side is not included in the request, it will be left unchanged.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"updateModelTemplates"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"model"</span>: {
+            <span style="color:#268bd2">"name"</span>: <span style="color:#2aa198">"Custom"</span>,
+            <span style="color:#268bd2">"templates"</span>: {
+                <span style="color:#268bd2">"Card 1"</span>: {
+                    <span style="color:#268bd2">"Front"</span>: <span style="color:#2aa198">"{{Question}}?"</span>,
+                    <span style="color:#268bd2">"Back"</span>: <span style="color:#2aa198">"{{Answer}}!"</span>
+                }
+            }
+        }
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       updateModelStyling
+      </strong>
+     </p>
+     <p>
+      Modify the CSS styling of an existing model by name.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"updateModelStyling"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"model"</span>: {
+            <span style="color:#268bd2">"name"</span>: <span style="color:#2aa198">"Custom"</span>,
+            <span style="color:#268bd2">"css"</span>: <span style="color:#2aa198">"p { color: blue; }"</span>
+        }
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       findAndReplaceInModels
+      </strong>
+     </p>
+     <p>
+      Find and replace string in existing model by model name. Customise to replace in front, back or css by setting to true/false.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"findAndReplaceInModels"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"model"</span>: {
+            <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">""</span>,
+            <span style="color:#268bd2">"findText"</span>: <span style="color:#2aa198">"text_to_replace"</span>,
+            <span style="color:#268bd2">"replaceText"</span>: <span style="color:#2aa198">"replace_with_text"</span>,
+            <span style="color:#268bd2">"front"</span>: <span style="color:#cb4b16">true</span>,
+            <span style="color:#268bd2">"back"</span>: <span style="color:#cb4b16">true</span>,
+            <span style="color:#268bd2">"css"</span>: <span style="color:#cb4b16">true</span>
+        }
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">1</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+   </ul>
+   <h4 id="note-actions">
+    Note Actions
+   </h4>
+   <ul>
+    <li>
+     <p>
+      <strong>
+       addNote
+      </strong>
+     </p>
+     <p>
+      Creates a note using the given deck and model, with the provided field values and tags. Returns the identifier of
+the created note created on success, and
+      <code>
+       null
+      </code>
+      on failure.
+     </p>
+     <p>
+      AnkiConnect can download audio, video, and picture files and embed them in newly created notes. The corresponding
+      <code>
+       audio
+      </code>
+      ,
+      <code>
+       video
+      </code>
+      , and
+      <code>
+       picture
+      </code>
+      note members are
+optional and can be omitted. If you choose to include any of them, they should contain a single object or an array of objects
+with the mandatory
+      <code>
+       filename
+      </code>
+      field and one of
+      <code>
+       data
+      </code>
+      ,
+      <code>
+       path
+      </code>
+      or
+      <code>
+       url
+      </code>
+      . Refer to the documentation of
+      <code>
+       storeMediaFile
+      </code>
+      for an explanation of these fields.
+The
+      <code>
+       skipHash
+      </code>
+      field can be optionally provided to skip the inclusion of files with an MD5 hash that matches the provided value.
+This is useful for avoiding the saving of error pages and stub files.
+The
+      <code>
+       fields
+      </code>
+      member is a list of fields that should play audio or video, or show a picture when the card is displayed in
+Anki. The
+      <code>
+       allowDuplicate
+      </code>
+      member inside
+      <code>
+       options
+      </code>
+      group can be set to true to enable adding duplicate cards.
+Normally duplicate cards can not be added and trigger exception.
+     </p>
+     <p>
+      The
+      <code>
+       duplicateScope
+      </code>
+      member inside
+      <code>
+       options
+      </code>
+      can be used to specify the scope for which duplicates are checked.
+A value of
+      <code>
+       "deck"
+      </code>
+      will only check for duplicates in the target deck; any other value will check the entire collection.
+     </p>
+     <p>
+      The
+      <code>
+       duplicateScopeOptions
+      </code>
+      object can be used to specify some additional settings:
+     </p>
+     <p><ul>
+      <li>
+       <code>
+        duplicateScopeOptions.deckName
+       </code>
+       will specify which deck to use for checking duplicates in. If undefined or
+       <code>
+        null
+       </code>
+       , the target deck will be used.
+      </li>
+      <li>
+       <code>
+        duplicateScopeOptions.checkChildren
+       </code>
+       will change whether or not duplicate cards are checked in child decks. The default value is
+       <code>
+        false
+       </code>
+       .
+      </li>
+      <li>
+       <code>
+        duplicateScopeOptions.checkAllModels
+       </code>
+       specifies whether duplicate checks are performed across all note types. The default value is
+       <code>
+        false
+       </code>
+       .
+      </li>
+     </ul></p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"addNote"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"note"</span>: {
+            <span style="color:#268bd2">"deckName"</span>: <span style="color:#2aa198">"Default"</span>,
+            <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Basic"</span>,
+            <span style="color:#268bd2">"fields"</span>: {
+                <span style="color:#268bd2">"Front"</span>: <span style="color:#2aa198">"front content"</span>,
+                <span style="color:#268bd2">"Back"</span>: <span style="color:#2aa198">"back content"</span>
+            },
+            <span style="color:#268bd2">"options"</span>: {
+                <span style="color:#268bd2">"allowDuplicate"</span>: <span style="color:#cb4b16">false</span>,
+                <span style="color:#268bd2">"duplicateScope"</span>: <span style="color:#2aa198">"deck"</span>,
+                <span style="color:#268bd2">"duplicateScopeOptions"</span>: {
+                    <span style="color:#268bd2">"deckName"</span>: <span style="color:#2aa198">"Default"</span>,
+                    <span style="color:#268bd2">"checkChildren"</span>: <span style="color:#cb4b16">false</span>,
+                    <span style="color:#268bd2">"checkAllModels"</span>: <span style="color:#cb4b16">false</span>
+                }
+            },
+            <span style="color:#268bd2">"tags"</span>: [
+                <span style="color:#2aa198">"yomichan"</span>
+            ],
+            <span style="color:#268bd2">"audio"</span>: [{
+                <span style="color:#268bd2">"url"</span>: <span style="color:#2aa198">"https://assets.languagepod101.com/dictionary/japanese/audiomp3.php?kanji=猫&amp;kana=ねこ"</span>,
+                <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"yomichan_ねこ_猫.mp3"</span>,
+                <span style="color:#268bd2">"skipHash"</span>: <span style="color:#2aa198">"7e2c2f954ef6051373ba916f000168dc"</span>,
+                <span style="color:#268bd2">"fields"</span>: [
+                    <span style="color:#2aa198">"Front"</span>
+                ]
+            }],
+            <span style="color:#268bd2">"video"</span>: [{
+                <span style="color:#268bd2">"url"</span>: <span style="color:#2aa198">"https://cdn.videvo.net/videvo_files/video/free/2015-06/small_watermarked/Contador_Glam_preview.mp4"</span>,
+                <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"countdown.mp4"</span>,
+                <span style="color:#268bd2">"skipHash"</span>: <span style="color:#2aa198">"4117e8aab0d37534d9c8eac362388bbe"</span>,
+                <span style="color:#268bd2">"fields"</span>: [
+                    <span style="color:#2aa198">"Back"</span>
+                ]
+            }],
+            <span style="color:#268bd2">"picture"</span>: [{
+                <span style="color:#268bd2">"url"</span>: <span style="color:#2aa198">"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/A_black_cat_named_Tilly.jpg/220px-A_black_cat_named_Tilly.jpg"</span>,
+                <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"black_cat.jpg"</span>,
+                <span style="color:#268bd2">"skipHash"</span>: <span style="color:#2aa198">"8d6e4646dfae812bf39651b59d7429ce"</span>,
+                <span style="color:#268bd2">"fields"</span>: [
+                    <span style="color:#2aa198">"Back"</span>
+                ]
+            }]
+        }
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">1496198395707</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       addNotes
+      </strong>
+     </p>
+     <p>
+      Creates multiple notes using the given deck and model, with the provided field values and tags. Returns an array of
+identifiers of the created notes (notes that could not be created will have a
+      <code>
+       null
+      </code>
+      identifier). Please see the
+documentation for
+      <code>
+       addNote
+      </code>
+      for an explanation of objects in the
+      <code>
+       notes
+      </code>
+      array.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"addNotes"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"notes"</span>: [
+            {
+                <span style="color:#268bd2">"deckName"</span>: <span style="color:#2aa198">"Default"</span>,
+                <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Basic"</span>,
+                <span style="color:#268bd2">"fields"</span>: {
+                    <span style="color:#268bd2">"Front"</span>: <span style="color:#2aa198">"front content"</span>,
+                    <span style="color:#268bd2">"Back"</span>: <span style="color:#2aa198">"back content"</span>
+                },
+                <span style="color:#268bd2">"tags"</span>: [
+                    <span style="color:#2aa198">"yomichan"</span>
+                ],
+                <span style="color:#268bd2">"audio"</span>: [{
+                    <span style="color:#268bd2">"url"</span>: <span style="color:#2aa198">"https://assets.languagepod101.com/dictionary/japanese/audiomp3.php?kanji=猫&amp;kana=ねこ"</span>,
+                    <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"yomichan_ねこ_猫.mp3"</span>,
+                    <span style="color:#268bd2">"skipHash"</span>: <span style="color:#2aa198">"7e2c2f954ef6051373ba916f000168dc"</span>,
+                    <span style="color:#268bd2">"fields"</span>: [
+                        <span style="color:#2aa198">"Front"</span>
+                    ]
+                }],
+                <span style="color:#268bd2">"video"</span>: [{
+                    <span style="color:#268bd2">"url"</span>: <span style="color:#2aa198">"https://cdn.videvo.net/videvo_files/video/free/2015-06/small_watermarked/Contador_Glam_preview.mp4"</span>,
+                    <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"countdown.mp4"</span>,
+                    <span style="color:#268bd2">"skipHash"</span>: <span style="color:#2aa198">"4117e8aab0d37534d9c8eac362388bbe"</span>,
+                    <span style="color:#268bd2">"fields"</span>: [
+                        <span style="color:#2aa198">"Back"</span>
+                    ]
+                }],
+                <span style="color:#268bd2">"picture"</span>: [{
+                    <span style="color:#268bd2">"url"</span>: <span style="color:#2aa198">"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/A_black_cat_named_Tilly.jpg/220px-A_black_cat_named_Tilly.jpg"</span>,
+                    <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"black_cat.jpg"</span>,
+                    <span style="color:#268bd2">"skipHash"</span>: <span style="color:#2aa198">"8d6e4646dfae812bf39651b59d7429ce"</span>,
+                    <span style="color:#268bd2">"fields"</span>: [
+                        <span style="color:#2aa198">"Back"</span>
+                    ]
+                }]
+            }
+        ]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">1496198395707</span>, <span style="color:#cb4b16">null</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       canAddNotes
+      </strong>
+     </p>
+     <p>
+      Accepts an array of objects which define parameters for candidate notes (see
+      <code>
+       addNote
+      </code>
+      ) and returns an array of
+booleans indicating whether or not the parameters at the corresponding index could be used to create a new note.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"canAddNotes"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"notes"</span>: [
+            {
+                <span style="color:#268bd2">"deckName"</span>: <span style="color:#2aa198">"Default"</span>,
+                <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Basic"</span>,
+                <span style="color:#268bd2">"fields"</span>: {
+                    <span style="color:#268bd2">"Front"</span>: <span style="color:#2aa198">"front content"</span>,
+                    <span style="color:#268bd2">"Back"</span>: <span style="color:#2aa198">"back content"</span>
+                },
+                <span style="color:#268bd2">"tags"</span>: [
+                    <span style="color:#2aa198">"yomichan"</span>
+                ]
+            }
+        ]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#cb4b16">true</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       updateNoteFields
+      </strong>
+     </p>
+     <p>
+      Modify the fields of an exist note. You can also include audio, video, or picture files which will be added to the note with an
+optional
+      <code>
+       audio
+      </code>
+      ,
+      <code>
+       video
+      </code>
+      , or
+      <code>
+       picture
+      </code>
+      property. Please see the documentation for
+      <code>
+       addNote
+      </code>
+      for an explanation of objects in the
+      <code>
+       audio
+      </code>
+      ,
+      <code>
+       video
+      </code>
+      , or
+      <code>
+       picture
+      </code>
+      array.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"updateNoteFields"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"note"</span>: {
+            <span style="color:#268bd2">"id"</span>: <span style="color:#2aa198">1514547547030</span>,
+            <span style="color:#268bd2">"fields"</span>: {
+                <span style="color:#268bd2">"Front"</span>: <span style="color:#2aa198">"new front content"</span>,
+                <span style="color:#268bd2">"Back"</span>: <span style="color:#2aa198">"new back content"</span>
+            },
+            <span style="color:#268bd2">"audio"</span>: [{
+                <span style="color:#268bd2">"url"</span>: <span style="color:#2aa198">"https://assets.languagepod101.com/dictionary/japanese/audiomp3.php?kanji=猫&amp;kana=ねこ"</span>,
+                <span style="color:#268bd2">"filename"</span>: <span style="color:#2aa198">"yomichan_ねこ_猫.mp3"</span>,
+                <span style="color:#268bd2">"skipHash"</span>: <span style="color:#2aa198">"7e2c2f954ef6051373ba916f000168dc"</span>,
+                <span style="color:#268bd2">"fields"</span>: [
+                    <span style="color:#2aa198">"Front"</span>
+                ]
+            }]
+        }
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       addTags
+      </strong>
+     </p>
+     <p>
+      Adds tags to notes by note ID.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"addTags"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"notes"</span>: [<span style="color:#2aa198">1483959289817</span>, <span style="color:#2aa198">1483959291695</span>],
+        <span style="color:#268bd2">"tags"</span>: <span style="color:#2aa198">"european-languages"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       removeTags
+      </strong>
+     </p>
+     <p>
+      Remove tags from notes by note ID.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"removeTags"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"notes"</span>: [<span style="color:#2aa198">1483959289817</span>, <span style="color:#2aa198">1483959291695</span>],
+        <span style="color:#268bd2">"tags"</span>: <span style="color:#2aa198">"european-languages"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       getTags
+      </strong>
+     </p>
+     <p>
+      Gets the complete list of tags for the current user.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getTags"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">"european-languages"</span>, <span style="color:#2aa198">"idioms"</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       clearUnusedTags
+      </strong>
+     </p>
+     <p>
+      Clears all the unused tags in the notes for the current user.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"clearUnusedTags"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       replaceTags
+      </strong>
+     </p>
+     <p>
+      Replace tags in notes by note ID.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"replaceTags"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"notes"</span>: [<span style="color:#2aa198">1483959289817</span>, <span style="color:#2aa198">1483959291695</span>],
+        <span style="color:#268bd2">"tag_to_replace"</span>: <span style="color:#2aa198">"european-languages"</span>,
+        <span style="color:#268bd2">"replace_with_tag"</span>: <span style="color:#2aa198">"french-languages"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       replaceTagsInAllNotes
+      </strong>
+     </p>
+     <p>
+      Replace tags in all the notes for the current user.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"replaceTagsInAllCards"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"tag_to_replace"</span>: <span style="color:#2aa198">"european-languages"</span>,
+        <span style="color:#268bd2">"replace_with_tag"</span>: <span style="color:#2aa198">"french-languages"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       findNotes
+      </strong>
+     </p>
+     <p>
+      Returns an array of note IDs for a given query. Query syntax is
+      <a href="https://docs.ankiweb.net/#/searching">
+       documented here
+      </a>
+      .
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"findNotes"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"query"</span>: <span style="color:#2aa198">"deck:current"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [<span style="color:#2aa198">1483959289817</span>, <span style="color:#2aa198">1483959291695</span>],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       notesInfo
+      </strong>
+     </p>
+     <p>
+      Returns a list of objects containing for each note ID the note fields, tags, note type and the cards belonging to
+the note.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"notesInfo"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"notes"</span>: [<span style="color:#2aa198">1502298033753</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [
+        {
+            <span style="color:#268bd2">"noteId"</span>:<span style="color:#2aa198">1502298033753</span>,
+            <span style="color:#268bd2">"modelName"</span>: <span style="color:#2aa198">"Basic"</span>,
+            <span style="color:#268bd2">"tags"</span>:[<span style="color:#2aa198">"tag"</span>,<span style="color:#2aa198">"another_tag"</span>],
+            <span style="color:#268bd2">"fields"</span>: {
+                <span style="color:#268bd2">"Front"</span>: {<span style="color:#268bd2">"value"</span>: <span style="color:#2aa198">"front content"</span>, <span style="color:#268bd2">"order"</span>: <span style="color:#2aa198">0</span>},
+                <span style="color:#268bd2">"Back"</span>: {<span style="color:#268bd2">"value"</span>: <span style="color:#2aa198">"back content"</span>, <span style="color:#268bd2">"order"</span>: <span style="color:#2aa198">1</span>}
+            }
+        }
+    ],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       deleteNotes
+      </strong>
+     </p>
+     <p>
+      Deletes notes with the given ids. If a note has several cards associated with it, all associated cards will be deleted.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"deleteNotes"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"notes"</span>: [<span style="color:#2aa198">1502298033753</span>]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       removeEmptyNotes
+      </strong>
+     </p>
+     <p>
+      Removes all the empty notes for the current user.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"removeEmptyNotes"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+   </ul>
+   <h4 id="statistic-actions">
+    Statistic Actions
+   </h4>
+   <ul>
+    <li>
+     <p>
+      <strong>
+       getNumCardsReviewedToday
+      </strong>
+     </p>
+     <p>
+      Gets the count of cards that have been reviewed in the current day (with day start time as configured by user in anki)
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getNumCardsReviewedToday"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">0</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       getNumCardsReviewedByDay
+      </strong>
+     </p>
+     <p>
+      Gets the number of cards reviewed as a list of pairs of
+      <code>
+       (dateString, number)
+      </code>
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getNumCardsReviewedByDay"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>:  [
+        [<span style="color:#2aa198">"2021-02-28"</span>, <span style="color:#2aa198">124</span>],
+        [<span style="color:#2aa198">"2021-02-27"</span>, <span style="color:#2aa198">261</span>]
+    ],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       getCollectionStatsHTML
+      </strong>
+     </p>
+     <p>
+      Gets the collection statistics report
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getCollectionStatsHTML"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"wholeCollection"</span>: <span style="color:#cb4b16">true</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">"&lt;center&gt; lots of HTML here &lt;/center&gt;"</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       cardReviews
+      </strong>
+     </p>
+     <p>
+      Requests all card reviews for a specified deck after a certain time.
+      <code>
+       startID
+      </code>
+      is the latest unix time not included in the result.
+Returns a list of 9-tuples
+      <code>
+       (reviewTime, cardID, usn, buttonPressed, newInterval, previousInterval, newFactor, reviewDuration, reviewType)
+      </code>
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"cardReviews"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"deck"</span>: <span style="color:#2aa198">"default"</span>,
+        <span style="color:#268bd2">"startID"</span>: <span style="color:#2aa198">1594194095740</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: [
+        [<span style="color:#2aa198">1594194095746</span>, <span style="color:#2aa198">1485369733217</span>, <span style="color:#2aa198">-1</span>, <span style="color:#2aa198">3</span>,   <span style="color:#2aa198">4</span>, <span style="color:#2aa198">-60</span>, <span style="color:#2aa198">2500</span>, <span style="color:#2aa198">6157</span>, <span style="color:#2aa198">0</span>],
+        [<span style="color:#2aa198">1594201393292</span>, <span style="color:#2aa198">1485369902086</span>, <span style="color:#2aa198">-1</span>, <span style="color:#2aa198">1</span>, <span style="color:#2aa198">-60</span>, <span style="color:#2aa198">-60</span>,    <span style="color:#2aa198">0</span>, <span style="color:#2aa198">4846</span>, <span style="color:#2aa198">0</span>]
+    ],
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       getLatestReviewID
+      </strong>
+     </p>
+     <p>
+      Returns the unix time of the latest review for the given deck. 0 if no review has ever been made for the deck.
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"getLatestReviewID"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"deck"</span>: <span style="color:#2aa198">"default"</span>
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#2aa198">1594194095746</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+    <li>
+     <p>
+      <strong>
+       insertReviews
+      </strong>
+     </p>
+     <p>
+      Inserts the given reviews into the database. Required format: list of 9-tuples
+      <code>
+       (reviewTime, cardID, usn, buttonPressed, newInterval, previousInterval, newFactor, reviewDuration, reviewType)
+      </code>
+     </p>
+     <p>
+      <em>
+       Sample request
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"action"</span>: <span style="color:#2aa198">"insertReviews"</span>,
+    <span style="color:#268bd2">"version"</span>: <span style="color:#2aa198">6</span>,
+    <span style="color:#268bd2">"params"</span>: {
+        <span style="color:#268bd2">"reviews"</span>: [
+            [<span style="color:#2aa198">1594194095746</span>, <span style="color:#2aa198">1485369733217</span>, <span style="color:#2aa198">-1</span>, <span style="color:#2aa198">3</span>,   <span style="color:#2aa198">4</span>, <span style="color:#2aa198">-60</span>, <span style="color:#2aa198">2500</span>, <span style="color:#2aa198">6157</span>, <span style="color:#2aa198">0</span>],
+            [<span style="color:#2aa198">1594201393292</span>, <span style="color:#2aa198">1485369902086</span>, <span style="color:#2aa198">-1</span>, <span style="color:#2aa198">1</span>, <span style="color:#2aa198">-60</span>, <span style="color:#2aa198">-60</span>,    <span style="color:#2aa198">0</span>, <span style="color:#2aa198">4846</span>, <span style="color:#2aa198">0</span>]
+        ]
+    }
+}
+</pre>
+     <p>
+      <em>
+       Sample result
+      </em>
+      :
+     </p>
+     <pre style="color:#93a1a1;background-color:#002b36" tabindex="0">{
+    <span style="color:#268bd2">"result"</span>: <span style="color:#cb4b16">null</span>,
+    <span style="color:#268bd2">"error"</span>: <span style="color:#cb4b16">null</span>
+}
+</pre>
+    </li>
+   </ul>
+  </section>
+  <script src="/js/main.js">
+  </script>
+ </body>
+</html>

@@ -1,4 +1,4 @@
-# AnkiSync 2
+# AnkiSync 2 (With doc examples auto-generator!)
 
 [![PyPI version shields.io](https://img.shields.io/pypi/v/ankisync2.svg)](https://pypi.python.org/pypi/ankisync2/)
 [![PyPI license](https://img.shields.io/pypi/l/ankisync2.svg)](https://pypi.python.org/pypi/ankisync2/)
