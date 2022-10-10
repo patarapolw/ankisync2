@@ -44,7 +44,7 @@ class Apkg(Anki20):
         self.orignal_anki2 = anki21
 
         if not anki21:
-            self.orignal_anki2 = self.folder.joinpath("collection.anki21")
+            self.orignal_anki2 = self.folder.joinpath("collection.anki2")
 
         shutil.copy(
             self.orignal_anki2,
